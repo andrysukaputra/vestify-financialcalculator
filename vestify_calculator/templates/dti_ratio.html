@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kalkulator Investasi Cepat</title>
+    <title>Savings Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -41,41 +41,48 @@
         >
       </nav>
 
-      <!-- Konten Utama-->
+      <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Kalkulator Investasi Cepat</h1>
+        <h1 class="mt-5">Debt to Income Ratio (DTI)</h1>
+        <p>Halaman ini berisi kalkulator investasi lainnya.</p>
+
+        <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="investment" class="form-label"
-              >Jumlah Investasi (IDR):</label
+            <label for="monthly_total_debt" class="form-label"
+              >Jumlah Utang Bulanan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="investment"
-              name="investment"
+              id="monthly_total_debt"
+              name="monthly_total_debt"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="profit" class="form-label">Keuntungan (IDR):</label>
+            <label for="monthly_gross_income" class="form-label"
+              >Pendapatan Bulanan Bruto (IDR):</label
+            >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="profit"
-              name="profit"
+              id="monthly_gross_income"
+              name="monthly_gross_income"
               required
             />
           </div>
-          <button type="submit" class="btn btn-primary">Hitung ROI</button>
+          <button type="submit" class="btn btn-primary">
+            Hitung Debt to Income Ratio (DTI)
+          </button>
         </form>
-        {% if roi is not none %}
+        {% if dti_ratio is not none %}
         <div class="mt-4">
-          <h3>Hasil ROI: {{ roi }}%</h3>
-          <p>Investasi: IDR {{ investment }}</p>
-          <p>Keuntungan: IDR {{ profit }}</p>
+          <h3>Hasil Debt to Income Ratio (DTI): {{ dti }}%</h3>
+          <p>Jumlah Total Utang Bulanan: IDR {{ monthly_total_debt }}</p>
+          <p>Pendapatan Bulanan Bruto: IDR {{ monthly_gross_income }}</p>
         </div>
         {% endif %}
       </div>
