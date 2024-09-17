@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings Ratio</title>
+    <title>Investment Assets to Total Assets Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -58,46 +58,48 @@
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Debt to Income Ratio (DTI)</h1>
+        <h1 class="mt-5">Investment Assets to Total Assets Ratio (IATAR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="monthly_total_debt" class="form-label"
-              >Jumlah Utang Bulanan (IDR):</label
+            <label for="investment_assets" class="form-label"
+              >Total Aset Investasi (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_total_debt"
-              name="monthly_total_debt"
+              id="investment_assets"
+              name="investment_assets"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="monthly_gross_income" class="form-label"
-              >Pendapatan Bulanan Bruto (IDR):</label
+            <label for="total_assets" class="form-label"
+              >Total Aset (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_gross_income"
-              name="monthly_gross_income"
+              id="total_assets"
+              name="total_assets"
               required
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Debt to Income Ratio (DTI)
+            Hitung Investment Assets to Total Assets Ratio (IATAR)
           </button>
         </form>
-        {% if dti_ratio is not none %}
+        {% if iatar is not none %}
         <div class="mt-4">
-          <h3>Hasil Debt to Income Ratio (DTI): {{ dti }}%</h3>
-          <p>Jumlah Total Utang Bulanan: IDR {{ monthly_total_debt }}</p>
-          <p>Pendapatan Bulanan Bruto: IDR {{ monthly_gross_income }}</p>
+          <h3>
+            Hasil Investment Assets to Total Assets Ratio (IATAR): {{ iatar }}%
+          </h3>
+          <p>Total Aset Investasi: IDR {{ investment_assets }}</p>
+          <p>Total Aset: IDR {{ total_assets }}</p>
         </div>
         {% endif %}
       </div>

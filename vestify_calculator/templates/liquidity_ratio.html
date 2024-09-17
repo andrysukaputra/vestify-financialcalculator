@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings Ratio</title>
+    <title>Liquidity Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -58,46 +58,46 @@
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Debt to Income Ratio (DTI)</h1>
+        <h1 class="mt-5">Liquidity Ratio (LR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="monthly_total_debt" class="form-label"
-              >Jumlah Utang Bulanan (IDR):</label
+            <label for="current_assets" class="form-label"
+              >Jumlah Aset Lancar (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_total_debt"
-              name="monthly_total_debt"
+              id="current_assets"
+              name="current_assets"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="monthly_gross_income" class="form-label"
-              >Pendapatan Bulanan Bruto (IDR):</label
+            <label for="monthly_expenses" class="form-label"
+              >Pengeluaran Bulanan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_gross_income"
-              name="monthly_gross_income"
+              id="monthly_expenses"
+              name="monthly_expenses"
               required
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Debt to Income Ratio (DTI)
+            Hitung Liquidity Ratio (LR)
           </button>
         </form>
-        {% if dti_ratio is not none %}
+        {% if liquidity_ratio is not none %}
         <div class="mt-4">
-          <h3>Hasil Debt to Income Ratio (DTI): {{ dti }}%</h3>
-          <p>Jumlah Total Utang Bulanan: IDR {{ monthly_total_debt }}</p>
-          <p>Pendapatan Bulanan Bruto: IDR {{ monthly_gross_income }}</p>
+          <h3>Hasil Liquidity Ratio (LR): {{ lr }} bulan</h3>
+          <p>Jumlah Aset Lancar: IDR {{ current_assets }}</p>
+          <p>Pengeluaran Bulanan: IDR {{ monthly_expenses }}</p>
         </div>
         {% endif %}
       </div>
