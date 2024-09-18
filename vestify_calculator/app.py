@@ -35,27 +35,28 @@ def calculate_roi(investment, profit):
         return "Investment amount cannot be zero."
 
 
-# Formula -> Savings Ratio
+# Formula -> Savings Rate
 
-# This function calculates the Savings Ratio given total savings and monthly gross income
-# The Savings Ratio is calculated using the following formula: (savings_total / monthly_gross_income) * 100
-# If the monthly gross income amount is zero, the function returns a string indicating this.
-def calculate_savings_ratio(savings_total, monthly_gross_income):
+# This function calculates the Savings Rate given total annual savings, employer match, and annual gross income
+# The Savings Rate is calculated using the following formula: ((total_annual_savings + employer_match) / annual_gross_income) * 100
+# If the annual gross income amount is zero, the function returns a string indicating this.
+def calculate_sr(total_annual_savings, employer_match, annual_gross_income):
     """
-    Calculate Savings Ratio given total savings and monthly gross income.
+    Calculate Savings Rate given total annual savings, employer match and annual gross income.
 
-    :param float savings_total: Total savings amount
-    :param float monthly_gross_income: Monthly gross income
-    :return: Savings Ratio, or string if error occurs
+    :param float total_annual_savings: Total annual savings amount
+    :param float employer_match: Employer match amount
+    :param float annual_gross_income: Annual gross income
+    :return: Savings Rate, or string if error occurs
     """
     try:
-        # calculate Savings Ratio using the formula
-        savings_ratio = (savings_total / monthly_gross_income) * 100
+        # calculate Savings Rate using the formula
+        sr = ((total_annual_savings + employer_match) / annual_gross_income) * 100
         # round the result to 2 decimal places
-        return round(savings_ratio, 2)
+        return round(sr, 2)
     except ZeroDivisionError:
         # return a string if the monthly gross income amount is zero
-        return "Monthly Gross Income amount cannot be zero."
+        return "Annual Gross Income amount cannot be zero."
 
 
 # Formula -> Debt to Income Ratio (DTI)
@@ -83,10 +84,10 @@ def calculate_dti(monthly_total_debt, monthly_gross_income):
 
 # Formula -> Emergency Fund Ratio
 
-# This function calculates the Emergency Fund Ratio (EFR) given emergency fund and monthly expenses
-# The EFR is calculated using the following formula: (emergency_fund / monthly_expenses)
-# If the monthly expenses amount is zero, the function returns a string indicating this.
-def calculate_efr(emergency_fund, monthly_expenses):
+# This function calculates the Emergency Fund Ratio (EFR) given emergency cash fund and monthly primary expenses
+# The EFR is calculated using the following formula: (emergency_cash_fund / monthly_primary_expenses)
+# If the monthly primary expenses amount is zero, the function returns a string indicating this.
+def calculate_efr(emergency_cash_fund, monthly_primary_expenses):
     """
     Calculate Emergency Fund Ratio (EFR) given emergency fund and monthly expenses.
 
@@ -96,12 +97,12 @@ def calculate_efr(emergency_fund, monthly_expenses):
     """
     try:
         # calculate EFR using the formula
-        efr = (emergency_fund / monthly_expenses)
+        efr = (emergency_cash_fund / monthly_primary_expenses)
         # round the result to 2 decimal places
         return round(efr, 2)
     except ZeroDivisionError:
-        # return a string if the monthly expenses is zero
-        return "Monthly Expenses amount cannot be zero."
+        # return a string if the monthly primary expenses is zero
+        return "Monthly Primary Expenses amount cannot be zero."
 
 
 # Formula -> Liquidity Ratio
@@ -196,6 +197,53 @@ def calculate_iatar(investment_assets, total_assets):
         return "Total assets amount cannot be zero."
 
 
+# Formula -> Basic Housing Ratio
+
+# This function calculates the Basic Housing Ratio (BHR) given housing costs and monthly gross income
+# The BHR is calculated using the following formula: (housing_costs / monthly_gross_income) * 100
+# If the monthly gross income amount is zero, the function returns a string indicating this.
+def calculate_bhr(housing_costs, monthly_gross_income):
+    """
+    Calculate Basic Housing Ratio (BHR) given housing costs and monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float monthly_gross_income: Monthly gross income
+    :return: BHR, or string if error occurs
+    """
+    try:
+        # calculate BHR using the formula
+        bhr = (housing_costs / monthly_gross_income) * 100
+        # round the result to 2 decimal places
+        return round(bhr, 2)
+    except ZeroDivisionError:
+        # return a string if the monthly gross income amount is zero
+        return "Monthly gross income amount cannot be zero."
+
+
+# Formula -> Broad Housing and Other Debts Ratio
+
+# This function calculates the Broad Housing and Other Debts Ratio (BHODR) given broad housing and other debts
+# The BHODR is calculated using the following formula: ((housing_costs + other_debt_payments) / monthly_gross_income) * 100
+# If the monthly gross income amount is zero, the function returns a string indicating this.
+def calculate_bhodr(housing_costs, other_debt_payments, monthly_gross_income):
+    """
+    Calculate Broad Housing and Other Debts Ratio (BHODR) given housing costs, other debt payments, and monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float other_debt_payments: Total other debt payments
+    :param float monthly_gross_income: Monthly gross income
+    :return: BHODR, or string if error occurs
+    """
+    try:
+        # calculate BHODR using the formula
+        bhodr = ((housing_costs + other_debt_payments) / monthly_gross_income) * 100
+        # round the result to 2 decimal places
+        return round(bhodr, 2)
+    except ZeroDivisionError:
+        # return a string if the monthly gross income amount is zero
+        return "Monthly gross income amount cannot be zero."
+
+
 """ 
 ---Flask App Pages to HTML Section---
 """
@@ -219,9 +267,9 @@ def index():
         return render_template('index.html', roi=roi, investment=investment, profit=profit)
     return render_template('index.html')
 
-# 2. Halaman untuk Savings Ratio
-@app.route('/savings_ratio/', methods=['GET', 'POST'])
-def savings_ratio():
+# 2. Halaman untuk Savings Rate
+@app.route('/savings_rate/', methods=['GET', 'POST'])
+def savings_rate():
     """
     Halaman untuk menghitung Savings Ratio.
 
@@ -232,11 +280,12 @@ def savings_ratio():
     :return: Hasil Savings Ratio, jumlah total tabungan, dan pendapatan bulanan bruto
     """
     if request.method == 'POST':
-        savings_total = float(request.form['savings_total'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        savings_ratio = calculate_savings_ratio(savings_total, monthly_gross_income)
-        return render_template('savings_ratio.html', savings_ratio=savings_ratio, savings_total=savings_total, monthly_gross_income=monthly_gross_income)
-    return render_template('savings_ratio.html')
+        total_annual_savings = float(request.form['total_annual_savings'])
+        employer_match = float(request.form['employer_match'])
+        annual_gross_income = float(request.form['annual_gross_income'])
+        sr = calculate_sr(total_annual_savings, employer_match, annual_gross_income)
+        return render_template('savings_rate.html', sr=sr, total_annual_savings=total_annual_savings, employer_match=employer_match, annual_gross_income=annual_gross_income)
+    return render_template('savings_rate.html')
 
 # 3. Halaman untuk DTI
 @app.route('/dti_ratio/', methods=['GET', 'POST'])
@@ -270,10 +319,10 @@ def emergency_fund_ratio():
     :return: Hasil EFR, dana darurat, dan pengeluaran bulanan
     """
     if request.method == 'POST':
-        emergency_fund = float(request.form['emergency_fund'])
-        monthly_expenses = float(request.form['monthly_expenses'])
-        efr = calculate_efr(emergency_fund, monthly_expenses)
-        return render_template('emergency_fund_ratio.html', efr=efr, emergency_fund=emergency_fund, monthly_expenses=monthly_expenses)
+        emergency_cash_fund = float(request.form['emergency_cash_fund'])
+        monthly_primary_expenses = float(request.form['monthly_primary_expenses'])
+        efr = calculate_efr(emergency_cash_fund, monthly_primary_expenses)
+        return render_template('emergency_fund_ratio.html', efr=efr, emergency_cash_fund=emergency_cash_fund, monthly_primary_expenses=monthly_primary_expenses)
     return render_template('emergency_fund_ratio.html')
 
 # 5. Halaman untuk Liquidity Ratio
@@ -351,6 +400,46 @@ def iatar():
         iatar = calculate_iatar(investment_assets, total_assets)
         return render_template('iatar.html', iatar=iatar, investment_assets=investment_assets, total_assets=total_assets)
     return render_template('iatar.html')
+
+# 9. Halaman untuk Basic Housing Ratio
+@app.route('/bhr/', methods=['GET', 'POST'])
+def bhr():
+    """
+    Halaman untuk menghitung Basic Housing Ratio (BHR).
+
+    BHR dihitung dengan membagi total housing costs dengan monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float monthly_gross_income: Monthly gross income
+    :return: Hasil BHR, total housing costs, dan monthly gross income
+    """
+    if request.method == 'POST':
+        housing_costs = float(request.form['housing_costs'])
+        monthly_gross_income = float(request.form['monthly_gross_income'])
+        bhr = calculate_bhr(housing_costs, monthly_gross_income)
+        return render_template('bhr.html', bhr=bhr, housing_costs=housing_costs, monthly_gross_income=monthly_gross_income)
+    return render_template('bhr.html')
+
+# 10. Halaman untuk Broad Housing and Other Debts Ratio
+@app.route('/bhodr/', methods=['GET', 'POST'])
+def bhodr():
+    """
+    Halaman untuk menghitung Broad Housing and Other Debts Ratio (BHR).
+
+    BHR dihitung dengan menjumlah total housing costs dengan other debt payments dan membaginya dengan monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float other_debt_payments: Other debt payments
+    :param float monthly_gross_income: Monthly gross income
+    :return: Hasil BHR, total housing costs, other debt payments dan monthly gross income
+    """
+    if request.method == 'POST':
+        housing_costs = float(request.form['housing_costs'])
+        other_debt_payments = float(request.form['other_debt_payments'])
+        monthly_gross_income = float(request.form['monthly_gross_income'])
+        bhodr = calculate_bhodr(housing_costs, other_debt_payments,monthly_gross_income)
+        return render_template('bhodr.html', bhodr=bhodr, housing_costs=housing_costs, other_debt_payments=other_debt_payments, monthly_gross_income=monthly_gross_income)
+    return render_template('bhodr.html')
 
 
 if __name__ == '__main__':

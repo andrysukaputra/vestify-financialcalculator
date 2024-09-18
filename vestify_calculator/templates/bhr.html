@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emergency Fund Ratio</title>
+    <title>Basic Housing Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -58,55 +58,52 @@
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Broad Housing and Other Debts Ratio (BHODR)</a
+          >Basic Housing and Other Debts Ratio (BHODR)</a
         >
       </nav>
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Emergency Fund Ratio (EFR)</h1>
+        <h1 class="mt-5">Basic Housing Ratio (BHR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="emergency_cash_fund" class="form-label"
-              >Jumlah Dana Tunai Darurat (IDR):</label
+            <label for="housing_costs" class="form-label"
+              >Total Biaya Perumahan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="emergency_cash_fund"
-              name="emergency_cash_fund"
+              id="housing_costs"
+              name="housing_costs"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="monthly_primary_expenses" class="form-label"
-              >Jumlah Pengeluaran Primer Bulanan (IDR):</label
+            <label for="monthly_gross_income" class="form-label"
+              >Total Pendapatan Kotor (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_primary_expenses"
-              name="monthly_primary_expenses"
+              id="monthly_gross_income"
+              name="monthly_gross_income"
               required
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Emergency Fund Ratio (EFR)
+            Hitung Basic Housing Ratio (BHR)
           </button>
         </form>
-        {% if emergency_fund_ratio is not none %}
+        {% if bhr is not none %}
         <div class="mt-4">
-          <h3>Hasil Emergency Fund Ratio (EFR): {{ efr }} bulan</h3>
-          <p>Jumlah Dana Tunai Darurat: IDR {{ emergency_cash_fund }}</p>
-          <p>
-            Jumlah Pengeluaran Primer Bulanan: IDR {{ monthly_primary_expenses
-            }}
-          </p>
+          <h3>Hasil Basic Housing Ratio (BHR): {{ bhr }}%</h3>
+          <p>Total Biaya Perumahan: IDR {{ housing_costs }}</p>
+          <p>Total Pendapatan Kotor: IDR {{ monthly_gross_income }}</p>
         </div>
         {% endif %}
       </div>

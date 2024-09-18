@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emergency Fund Ratio</title>
+    <title>Savings Rate</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -58,55 +58,66 @@
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Broad Housing and Other Debts Ratio (BHODR)</a
+          >Basic Housing to Operating Debt Ratio (BHODR)</a
         >
       </nav>
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Emergency Fund Ratio (EFR)</h1>
+        <h1 class="mt-5">Savings Rate (SR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="emergency_cash_fund" class="form-label"
-              >Jumlah Dana Tunai Darurat (IDR):</label
+            <label for="total_annual_savings" class="form-label"
+              >Total Tabungan Tahunan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="emergency_cash_fund"
-              name="emergency_cash_fund"
+              id="total_annual_savings"
+              name="total_annual_savings"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="monthly_primary_expenses" class="form-label"
-              >Jumlah Pengeluaran Primer Bulanan (IDR):</label
+            <label for="employer_match" class="form-label"
+              >Kontribusi Pemberi Kerja (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="monthly_primary_expenses"
-              name="monthly_primary_expenses"
+              id="employer_match"
+              name="employer_match"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="annual_gross_income" class="form-label"
+              >Pendapatan Tahunan Bruto (IDR):</label
+            >
+            <input
+              type="number"
+              step="any"
+              class="form-control"
+              id="annual_gross_income"
+              name="annual_gross_income"
               required
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Emergency Fund Ratio (EFR)
+            Hitung Savings Rate
           </button>
         </form>
-        {% if emergency_fund_ratio is not none %}
+        {% if sr is not none %}
         <div class="mt-4">
-          <h3>Hasil Emergency Fund Ratio (EFR): {{ efr }} bulan</h3>
-          <p>Jumlah Dana Tunai Darurat: IDR {{ emergency_cash_fund }}</p>
-          <p>
-            Jumlah Pengeluaran Primer Bulanan: IDR {{ monthly_primary_expenses
-            }}
-          </p>
+          <h3>Hasil Savings Rate: {{ sr }}%</h3>
+          <p>Total Tabungan Tahunan: IDR {{ total_annual_savings }}</p>
+          <p>Kontribusi Pemberi Kerja: IDR {{ employer_match }}</p>
+          <p>Pendapatan Tahunan Bruto: IDR {{ annual_gross_income }}</p>
         </div>
         {% endif %}
       </div>

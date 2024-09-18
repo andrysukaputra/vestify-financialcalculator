@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings Ratio</title>
+    <title>Broad Housing and Other Debts Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -33,8 +33,8 @@
         <a class="nav-link active" href="{{ url_for('index') }}"
           >ROI Calculator</a
         >
-        <a class="nav-link" href="{{ url_for('savings_ratio') }}"
-          >Savings Ratio</a
+        <a class="nav-link" href="{{ url_for('savings_rate') }}"
+          >Savings Rate (SR)</a
         >
         <a class="nav-link" href="{{ url_for('dti_ratio') }}"
           >Debt to Income Ratio (DTI)</a
@@ -54,31 +54,50 @@
         <a class="nav-link" href="{{ url_for('iatar') }}"
           >Investment Assets to Total Assets Ratio (IATAR)</a
         >
+        <a class="nav-link" href="{{ url_for('bhr') }}"
+          >Basic Housing Ratio (BHR)</a
+        >
+        <a class="nav-link" href="{{ url_for('bhodr') }}"
+          >Broad Housing and Other Debts Ratio (BHODR)</a
+        >
       </nav>
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Savings Ratio</h1>
+        <h1 class="mt-5">Broad Housing and Other Debts Ratio (BHODR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="savings_total" class="form-label"
-              >Jumlah Total Tabungan (IDR):</label
+            <label for="housing_costs" class="form-label"
+              >Total Biaya Perumahan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="savings_total"
-              name="savings_total"
+              id="housing_costs"
+              name="housing_costs"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="other_debt_payments" class="form-label"
+              >Total Pembayaran Utang lainnya (IDR):</label
+            >
+            <input
+              type="number"
+              step="any"
+              class="form-control"
+              id="other_debt_payments"
+              name="other_debt_payments"
               required
             />
           </div>
           <div class="mb-3">
             <label for="monthly_gross_income" class="form-label"
-              >Pendapatan Bulanan Bruto (IDR):</label
+              >Total Pendapatan Kotor (IDR):</label
             >
             <input
               type="number"
@@ -90,14 +109,17 @@
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Savings Ratio
+            Hitung Broad Housing and Other Debts Ratio (BHODR)
           </button>
         </form>
-        {% if savings_ratio is not none %}
+        {% if bhodr is not none %}
         <div class="mt-4">
-          <h3>Hasil Savings Ratio: {{ savings_ratio }}%</h3>
-          <p>Jumlah Total Tabungan: IDR {{ savings_total }}</p>
-          <p>Pendapatan Bulanan Bruto: IDR {{ monthly_gross_income }}</p>
+          <h3>
+            Hasil Broad Housing and Other Debts Ratio (BHODR): {{ bhodr }}%
+          </h3>
+          <p>Total Biaya Perumahan: IDR {{ housing_costs }}</p>
+          <p>Total Pembiayaan Utang Lainnya: IDR {{ other_debt_payments }}</p>
+          <p>Total Pendapatan Kotor: IDR {{ monthly_gross_income }}</p>
         </div>
         {% endif %}
       </div>
