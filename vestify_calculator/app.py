@@ -14,25 +14,25 @@ app = Flask(__name__)
 
 # Formula -> Return on Investment (ROI)
 
-# Calculate Return on Investment (ROI) given investment and profit.
-# ROI is calculated using the following formula: (profit - investment) / investment * 100
-# If the investment amount is zero, the function returns a string indicating this.
-def calculate_roi(investment, profit):
+# Calculate Return on Investment (ROI) given final value of investment, initial value of investment, and cost of investment.
+# ROI is calculated using the following formula: (final value of investment - initial value of investment) / cost of investment * 100
+# If the cost of investment amount is zero, the function returns a string indicating this.
+def calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment):
     """
-    Calculate Return on Investment (ROI) given investment and profit.
+    Calculate Return on Investment (ROI) given final value of investment, initial value of investment and cost of investment.
 
-    :param float investment: Total investment amount
-    :param float profit: Total profit amount
+    :param float final value of investment: Total final value of investment amount
+    :param float initial value of investment: Total initial value of investment amount
     :return: ROI, or string if error occurs
     """
     try:
         # calculate ROI using the formula
-        roi = (profit - investment) / investment * 100
+        roi = ((final_value_of_investment - initial_value_of_investment) / cost_of_investment) * 100
         # round the result to 2 decimal places
         return round(roi, 2)
     except ZeroDivisionError:
         # return a string if the investment amount is zero
-        return "Investment amount cannot be zero."
+        return "Cost of investment amount cannot be zero."
 
 
 # Formula -> Savings Rate
@@ -244,6 +244,30 @@ def calculate_bhodr(housing_costs, other_debt_payments, monthly_gross_income):
         return "Monthly gross income amount cannot be zero."
 
 
+# Formula -> Investment Assets to Gross Pay Ratio
+
+# This function calculates the Investment Assets to Gross Pay Ratio (IAGPR) given investment assets, cash and annual gross pay
+# The IAGPR is calculated using the following formula: ((investment_assets + cash) / annual_gross_pay) * 100
+# If the annual gross pay amount is zero, the function returns a string indicating this.
+def calculate_iagpr(investment_assets, cash, annual_gross_pay):
+    """
+    Calculate Investment Assets to Gross Pay Ratio (IAGPR) given investment assets, cash, and annual gross pay.
+
+    :param float investment_assets: Total investment assets
+    :param float cash: Total cash
+    :param float annual_gross_pay: Annual gross pay
+    :return: IAGPR, or string if error occurs
+    """
+    try:
+        # calculate IAGPR using the formula
+        iagpr = ((investment_assets + cash) / annual_gross_pay) * 100
+        # round the result to 2 decimal places
+        return round(iagpr, 2)
+    except ZeroDivisionError:
+        # return a string if the annual gross pay amount is zero
+        return "Annual gross pay amount cannot be zero."
+
+
 """ 
 ---Flask App Pages to HTML Section---
 """
@@ -256,15 +280,17 @@ def index():
 
     Halaman ini berisi kalkulator investasi, yaitu ROI (Return on Investment).
 
-    :param float investment: Jumlah investasi
-    :param float profit: Jumlah keuntungan
-    :return: Hasil ROI, jumlah investasi, dan jumlah keuntungan
+    :param float final value of investment: Total nilai akhir investasi
+    :param float initial value of investment: Total nilai awal investasi
+    :param float cost of investment: Total biaya investasi
+    :return: Hasil ROI, total nilai akhir investasi, total nilai awal investasi, dan total biaya investasi
     """
     if request.method == 'POST':
-        investment = float(request.form['investment'])
-        profit = float(request.form['profit'])
-        roi = calculate_roi(investment, profit)
-        return render_template('index.html', roi=roi, investment=investment, profit=profit)
+        final_value_of_investment = float(request.form['final_value_of_investment'])
+        initial_value_of_investment = float(request.form['initial_value_of_investment'])
+        cost_of_investment = float(request.form['cost_of_investment'])
+        roi = calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment)
+        return render_template('index.html', roi=roi, final_value_of_investment=final_value_of_investment, initial_value_of_investment=initial_value_of_investment, cost_of_investment=cost_of_investment)
     return render_template('index.html')
 
 # 2. Halaman untuk Savings Rate
@@ -440,6 +466,27 @@ def bhodr():
         bhodr = calculate_bhodr(housing_costs, other_debt_payments,monthly_gross_income)
         return render_template('bhodr.html', bhodr=bhodr, housing_costs=housing_costs, other_debt_payments=other_debt_payments, monthly_gross_income=monthly_gross_income)
     return render_template('bhodr.html')
+
+# 11. Halaman untuk Investment Assets to Gross Pay Ratio
+@app.route('/iagpr/', methods=['GET', 'POST'])
+def iagpr():
+    """
+    Halaman untuk menghitung Investment Assets to Gross Pay Ratio (IAGPR).
+
+    IAGPR dihitung dengan membagi total investment assets, cash, dan membaginya dengan monthly gross income.
+
+    :param float investment_assets: Total investment assets
+    :param float cash: Total cash
+    :param float annual_gross_income: Total annual gross income
+    :return: Hasil IAGPR, total investment assets, cash, dan annual gross income
+    """
+    if request.method == 'POST':
+        investment_assets = float(request.form['investment_assets'])
+        cash = float(request.form['cash'])
+        annual_gross_income = float(request.form['annual_gross_income'])
+        iagpr = calculate_iagpr(investment_assets, cash, annual_gross_income)
+        return render_template('iagpr.html', iagpr=iagpr, investment_assets=investment_assets, cash=cash, annual_gross_income=annual_gross_income)
+    return render_template('iagpr.html')
 
 
 if __name__ == '__main__':

@@ -60,6 +60,9 @@
         <a class="nav-link" href="{{ url_for('bhodr') }}"
           >Broad Housing and Other Debts Ratio (BHODR)</a
         >
+        <a class="nav-link" href="{{ url_for('iagpr') }}"
+          >Investment Assets to Gross Pay Ratio (IAGPR)</a
+        >
       </nav>
 
       <!-- Konten Utama-->
@@ -67,26 +70,41 @@
         <h1 class="mt-5">Kalkulator Investasi Cepat</h1>
         <form method="POST">
           <div class="mb-3">
-            <label for="investment" class="form-label"
-              >Jumlah Investasi (IDR):</label
+            <label for="final_value_of_investment" class="form-label"
+              >Total Nilai Akhir Investasi (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="investment"
-              name="investment"
+              id="final_value_of_investment"
+              name="final_value_of_investment"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="profit" class="form-label">Keuntungan (IDR):</label>
+            <label for="initial_value_of_investment" class="form-label"
+              >Total Nilai Awal Investasi (IDR):</label
+            >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="profit"
-              name="profit"
+              id="initial_value_of_investment"
+              name="initial_value_of_investment"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="cost_of_investment" class="form-label"
+              >Total Biaya Investasi (IDR):</label
+            >
+            <input
+              type="number"
+              step="any"
+              class="form-control"
+              id="cost_of_investment"
+              name="cost_of_investment"
               required
             />
           </div>
@@ -95,8 +113,13 @@
         {% if roi is not none %}
         <div class="mt-4">
           <h3>Hasil ROI: {{ roi }}%</h3>
-          <p>Investasi: IDR {{ investment }}</p>
-          <p>Keuntungan: IDR {{ profit }}</p>
+          <p>
+            Total Nilai Akhir Investasi: IDR {{ final_value_of_investment }}
+          </p>
+          <p>
+            Total Nilai Awal Investasi: IDR {{ initial_value_of_investment }}
+          </p>
+          <p>Total Biaya Investasi: IDR {{ cost_of_investment }}</p>
         </div>
         {% endif %}
       </div>

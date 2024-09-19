@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Net Worth to Assets Ratio</title>
+    <title>Investment Assets to Gross Pay Ratio</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -58,7 +58,7 @@
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Basic Housing and Other Debts Ratio (BHODR)</a
+          >Broad Housing and Other Debts Ratio (BHODR)</a
         >
         <a class="nav-link" href="{{ url_for('iagpr') }}"
           >Investment Assets to Gross Pay Ratio (IAGPR)</a
@@ -67,46 +67,60 @@
 
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
-        <h1 class="mt-5">Net Worth to Assets Ratio (NWAR)</h1>
+        <h1 class="mt-5">Investment Assets to Gross Pay Ratio (IAGPR)</h1>
         <p>Halaman ini berisi kalkulator investasi lainnya.</p>
 
         <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="net_worth" class="form-label"
-              >Jumlah Nilai Bersih (IDR):</label
+            <label for="investment_assets" class="form-label"
+              >Total Aset Investasi (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="net_worth"
-              name="net_worth"
+              id="investment_assets"
+              name="investment_assets"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="total_assets" class="form-label"
-              >Total Aset (IDR):</label
+            <label for="cash" class="form-label">Total Kas (IDR):</label>
+            <input
+              type="number"
+              step="any"
+              class="form-control"
+              id="cash"
+              name="cash"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="annual_gross_income" class="form-label"
+              >Total Pendapatan Kotor Tahunan (IDR):</label
             >
             <input
               type="number"
               step="any"
               class="form-control"
-              id="total_assets"
-              name="total_assets"
+              id="annual_gross_income"
+              name="annual_gross_income"
               required
             />
           </div>
           <button type="submit" class="btn btn-primary">
-            Hitung Net Worth to Assets Ratio (NWAR)
+            Hitung Investment Assets to Gross Pay Ratio (IAGPR)
           </button>
         </form>
-        {% if net_worth_to_assets_ratio is not none %}
+        {% if iagpr is not none %}
         <div class="mt-4">
-          <h3>Hasil Net Worth to Assets Ratio (NWAR): {{ nwar }}%</h3>
-          <p>Jumlah Nilai Bersih: IDR {{ net_worth }}</p>
-          <p>Total Aset: IDR {{ total_assets }}</p>
+          <h3>
+            Hasil Investment Assets to Gross Pay Ratio (IAGPR): {{ iagpr }}%
+          </h3>
+          <p>Total Aset Investasi: IDR {{ investment_assets }}</p>
+          <p>Total Kas: IDR {{ cash }}</p>
+          <p>Total Pendapatan Kotor Tahunan: IDR {{ annual_gross_income }}</p>
         </div>
         {% endif %}
       </div>

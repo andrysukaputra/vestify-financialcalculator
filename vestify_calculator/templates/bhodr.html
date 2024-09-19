@@ -60,6 +60,9 @@
         <a class="nav-link" href="{{ url_for('bhodr') }}"
           >Broad Housing and Other Debts Ratio (BHODR)</a
         >
+        <a class="nav-link" href="{{ url_for('iagpr') }}"
+          >Investment Assets to Gross Pay Ratio (IAGPR)</a
+        >
       </nav>
 
       <!-- Konten Utama untuk Savings Ratio -->
@@ -97,7 +100,7 @@
           </div>
           <div class="mb-3">
             <label for="monthly_gross_income" class="form-label"
-              >Total Pendapatan Kotor (IDR):</label
+              >Total Pendapatan Kotor Bulanan (IDR):</label
             >
             <input
               type="number"
@@ -119,7 +122,7 @@
           </h3>
           <p>Total Biaya Perumahan: IDR {{ housing_costs }}</p>
           <p>Total Pembiayaan Utang Lainnya: IDR {{ other_debt_payments }}</p>
-          <p>Total Pendapatan Kotor: IDR {{ monthly_gross_income }}</p>
+          <p>Total Pendapatan Kotor Bulanan: IDR {{ monthly_gross_income }}</p>
         </div>
         {% endif %}
       </div>
