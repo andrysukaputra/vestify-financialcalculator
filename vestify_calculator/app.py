@@ -3,10 +3,12 @@
 # call the functions to calculate the desired metrics.
 
 from flask import Flask, render_template, request
+import locale
 
 # Create the Flask application
 app = Flask(__name__)
 
+locale.setlocale(locale.LC_ALL, "")
 
 """ 
 ---Personal Finance Formulas Section---
@@ -290,8 +292,10 @@ def index():
         initial_value_of_investment = float(request.form['initial_value_of_investment'])
         cost_of_investment = float(request.form['cost_of_investment'])
         roi = calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment)
+        #formatted_fvoi = locale.currency(final_value_of_investment, grouping=True)
         return render_template('index.html', roi=roi, final_value_of_investment=final_value_of_investment, initial_value_of_investment=initial_value_of_investment, cost_of_investment=cost_of_investment)
     return render_template('index.html')
+
 
 # 2. Halaman untuk Savings Rate
 @app.route('/savings_rate/', methods=['GET', 'POST'])
