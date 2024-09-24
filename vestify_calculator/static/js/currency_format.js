@@ -22,7 +22,7 @@ document.querySelector("input").addEventListener("input", function (event) {
   let amount = document.getElementById("currency-output");
   amount.textContent = formattedValue;
   //input.value = formattedValue;
-  if (isNaN(amount.textContent)) {
+  if (!isNaN(amount.textContent)) {
     amount.textContent = 0;
   }
 });
