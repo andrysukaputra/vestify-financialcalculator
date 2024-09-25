@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kalkulator Investasi Cepat</title>
+    <title>ROI</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/navbar.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="d-flex">
@@ -67,66 +68,126 @@
 
       <!-- Konten Utama-->
       <div class="container-fluid">
-        <h1 class="mt-5">Kalkulator Investasi Cepat</h1>
+        <h1 class="mt-5">Return on Investment (ROI)</h1>
         <form method="POST">
           <div class="mb-3">
             <label for="final_value_of_investment" class="form-label"
-              >Total Nilai Akhir Investasi (IDR):</label
+              >Final Value of Investment:</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="final_value_of_investment"
               name="final_value_of_investment"
-              placeholder="Enter"
+              data-output-id="currency-output1"
+              placeholder="Enter Amount"
               required
             />
-            <p>Amount: <span id="currency-output"></span></p>
+            <p>Amount: <span id="currency-output1">0</span></p>
           </div>
           <div class="mb-3">
             <label for="initial_value_of_investment" class="form-label"
-              >Total Nilai Awal Investasi (IDR):</label
+              >Initial Value of Investment:</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="initial_value_of_investment"
               name="initial_value_of_investment"
+              data-output-id="currency-output2"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output2">0</span></p>
           </div>
           <div class="mb-3">
             <label for="cost_of_investment" class="form-label"
-              >Total Biaya Investasi (IDR):</label
+              >Cost of Investment:</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="cost_of_investment"
               name="cost_of_investment"
+              data-output-id="currency-output3"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output3">0</span></p>
           </div>
-          <button type="submit" class="btn btn-primary">Hitung ROI</button>
+          <button type="submit" class="btn btn-primary">Calculate ROI</button>
         </form>
         {% if roi is not none %}
         <div class="mt-4">
-          <h3>Hasil ROI: {{ roi }}%</h3>
-          <p>
-            Total Nilai Akhir Investasi: IDR {{ final_value_of_investment }}
-          </p>
-          <p>
-            Total Nilai Awal Investasi: IDR {{ initial_value_of_investment }}
-          </p>
-          <p>Total Biaya Investasi: IDR {{ cost_of_investment }}</p>
+          <h3>ROI Result: {{ roi }}%</h3>
+
+          <canvas id="myChart"></canvas>
+          <style>
+            #myChart {
+              width: 400px;
+              height: 400px;
+            }
+          </style>
+
+          <script>
+            const ctx = document.getElementById("myChart").getContext("2d");
+
+            const data = {
+              labels: [
+                "Final Value of Investment",
+                "Initial Value of Investment",
+                "Cost of Investment",
+              ],
+              datasets: [
+                {
+                  label: "Return on Investment (ROI)",
+                  data: [50, 25, 20], // Data awal
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                  ],
+                  borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(75, 192, 192, 1)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            };
+
+            const config = {
+              type: "pie",
+              data: data,
+              options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                  tooltip: {
+                    enabled: true,
+                  },
+                },
+              },
+            };
+
+            const myChart = new Chart(ctx, config);
+          </script>
+          <p>Final Value of Investment: {{ final_value_of_investment }}</p>
+          <p>Initial Value of Investment: {{ initial_value_of_investment }}</p>
+          <p>Cost of Investment: {{ cost_of_investment }}</p>
         </div>
         {% endif %}
       </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
     <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>

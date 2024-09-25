@@ -36,6 +36,27 @@ def calculate_roi(final_value_of_investment, initial_value_of_investment, cost_o
         # return a string if the investment amount is zero
         return "Cost of investment amount cannot be zero."
 
+# 1. Halaman Utama
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    """
+    Halaman Utama.
+
+    Halaman ini berisi kalkulator investasi, yaitu ROI (Return on Investment).
+
+    :param float final value of investment: Total nilai akhir investasi
+    :param float initial value of investment: Total nilai awal investasi
+    :param float cost of investment: Total biaya investasi
+    :return: Hasil ROI, total nilai akhir investasi, total nilai awal investasi, dan total biaya investasi
+    """
+    if request.method == 'POST':
+        final_value_of_investment = float(request.form['final_value_of_investment'])
+        initial_value_of_investment = float(request.form['initial_value_of_investment'])
+        cost_of_investment = float(request.form['cost_of_investment'])
+        roi = calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment)
+        formatted_fvoi = locale.currency(final_value_of_investment, grouping=True)
+        return render_template('index.html', roi=roi, final_value_of_investment=formatted_fvoi, initial_value_of_investment=initial_value_of_investment, cost_of_investment=cost_of_investment)
+    return render_template('index.html')
 
 # Formula -> Savings Rate
 
@@ -273,29 +294,6 @@ def calculate_iagpr(investment_assets, cash, annual_gross_pay):
 """ 
 ---Flask App Pages to HTML Section---
 """
-
-# 1. Halaman Utama
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    """
-    Halaman Utama.
-
-    Halaman ini berisi kalkulator investasi, yaitu ROI (Return on Investment).
-
-    :param float final value of investment: Total nilai akhir investasi
-    :param float initial value of investment: Total nilai awal investasi
-    :param float cost of investment: Total biaya investasi
-    :return: Hasil ROI, total nilai akhir investasi, total nilai awal investasi, dan total biaya investasi
-    """
-    if request.method == 'POST':
-        final_value_of_investment = float(request.form['final_value_of_investment'])
-        initial_value_of_investment = float(request.form['initial_value_of_investment'])
-        cost_of_investment = float(request.form['cost_of_investment'])
-        roi = calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment)
-        #formatted_fvoi = locale.currency(final_value_of_investment, grouping=True)
-        return render_template('index.html', roi=roi, final_value_of_investment=final_value_of_investment, initial_value_of_investment=initial_value_of_investment, cost_of_investment=cost_of_investment)
-    return render_template('index.html')
-
 
 # 2. Halaman untuk Savings Rate
 @app.route('/savings_rate/', methods=['GET', 'POST'])

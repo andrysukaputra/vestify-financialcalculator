@@ -22,14 +22,20 @@ input {
   text-align: left;
 }
 
-p {
-  font-weight: bold;
-}
-
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+p {
+  font-weight: bold;
 }
 
 .btn-primary {

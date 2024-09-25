@@ -1,28 +1,37 @@
-document.querySelector("input").addEventListener("input", function (event) {
-  let input = event.target;
-  let value = input.value;
+// Pilih semua elemen imput dengan querySelectorAll
+document.querySelectorAll("input").forEach(function (inputField) {
+  inputField.addEventListener("input", function (event) {
+    let input = event.target;
+    let value = input.value;
 
-  // Hapus semua karakter kecuali angka
-  //let numericValue = value.replace(/[^0-9]/g, "");
+    // Hapus semua karakter kecuali angka dan titik desimal
+    let numericValue = value.replace(/[^0-9.]/g, "");
 
-  // Dapatkan lokal pengguna
-  let userLocale = navigator.language || "en-US";
+    // Jika input kosong atau tidak valid, tampilkan "0"
+    if (isNaN(numericValue) || numericValue === "") {
+      numericValue = "0";
+    }
 
-  // Format angka sesuai dengan lokal pengguna tanpa menentukan simbol mata uang
-  let formattedValue = parseFloat(value).toLocaleString(userLocale, {
-    //new Intl.NumberFormat(userLocale, {
-    style: "currency",
-    currency: "IDR",
-    currencyDisplay: "symbol",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 20,
-  }); //.format(numericValue);
+    // Dapatkan lokal pengguna
+    let userLocale = navigator.language || "en-US";
 
-  // Tampilkan nilai yang diformat di dalam kotak input
-  let amount = document.getElementById("currency-output");
-  amount.textContent = formattedValue;
-  //input.value = formattedValue;
-  if (!isNaN(amount.textContent)) {
-    amount.textContent = 0;
-  }
+    // Format angka sesuai dengan lokal pengguna tanpa menentukan simbol mata uang
+    let formattedValue = parseFloat(numericValue).toLocaleString(userLocale, {
+      style: "currency",
+      currency: "IDR", // "IDR" bisa diubah dengan mata uang sesuai lokal pengguna
+      currencyDisplay: "symbol",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 20,
+    });
+
+    // Tampilkan nilai yang diformat dalam elemen <span> yang sesuai
+    let outputId = input.getAttribute("data-output-id"); // Mengambil ID elemen <span> dari atribut data
+    let amount = document.getElementById(outputId);
+    amount.textContent = formattedValue;
+
+    // Jika nilai kosong, setel menjadi "0"
+    if (isNaN(value) || value === "") {
+      amount.textContent = "0"; // Atur sesuai dengan format yang diinginkan
+    }
+  });
 });
