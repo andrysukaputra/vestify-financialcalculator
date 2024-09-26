@@ -78,47 +78,56 @@
               >Total Tabungan Tahunan (IDR):</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="total_annual_savings"
               name="total_annual_savings"
+              data-output-id="currency-output1"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output1">0</span></p>
           </div>
           <div class="mb-3">
             <label for="employer_match" class="form-label"
               >Kontribusi Pemberi Kerja (IDR):</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="employer_match"
               name="employer_match"
+              data-output-id="currency-output2"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output2">0</span></p>
           </div>
           <div class="mb-3">
             <label for="annual_gross_income" class="form-label"
               >Pendapatan Tahunan Bruto (IDR):</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="annual_gross_income"
               name="annual_gross_income"
+              data-output-id="currency-output3"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output3">0</span></p>
           </div>
-          <button type="submit" class="btn btn-primary">
+          <button id="calculate-btn" type="submit" class="btn btn-primary">
             Hitung Savings Rate
           </button>
         </form>
         {% if sr is not none %}
         <div class="mt-4">
-          <h3>Hasil Savings Rate: {{ sr }}%</h3>
+          <h3 id="sr-result">Hasil Savings Rate: {{ sr }}%</h3>
           <p>Total Tabungan Tahunan: IDR {{ total_annual_savings }}</p>
           <p>Kontribusi Pemberi Kerja: IDR {{ employer_match }}</p>
           <p>Pendapatan Tahunan Bruto: IDR {{ annual_gross_income }}</p>
@@ -127,6 +136,7 @@
       </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
