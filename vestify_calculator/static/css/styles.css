@@ -45,3 +45,12 @@ p {
 .mt-4 {
   margin-top: 1.5rem;
 }
+
+#chart-container {
+  display: flex;
+}
+
+canvas {
+  width: 300px;
+  height: 300px;
+}

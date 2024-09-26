@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emergency Fund Ratio</title>
+    <title>ROI</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/navbar.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="d-flex">
@@ -66,56 +67,80 @@
         >
       </nav>
 
-      <!-- Konten Utama untuk Savings Ratio -->
+      <!-- Konten Utama-->
       <div class="container-fluid">
-        <h1 class="mt-5">Emergency Fund Ratio (EFR)</h1>
-        <p>Halaman ini berisi kalkulator investasi lainnya.</p>
-
-        <!-- Tambahkan form atau konten lain untuk kalkulator -->
+        <h1 class="mt-5">Return on Investment (ROI)</h1>
         <form method="POST">
           <div class="mb-3">
-            <label for="emergency_cash_fund" class="form-label"
-              >Jumlah Dana Tunai Darurat (IDR):</label
+            <label for="final_value_of_investment" class="form-label"
+              >Final Value of Investment:</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
-              id="emergency_cash_fund"
-              name="emergency_cash_fund"
+              id="final_value_of_investment"
+              name="final_value_of_investment"
+              data-output-id="currency-output1"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output1">0</span></p>
           </div>
           <div class="mb-3">
-            <label for="monthly_primary_expenses" class="form-label"
-              >Jumlah Pengeluaran Primer Bulanan (IDR):</label
+            <label for="initial_value_of_investment" class="form-label"
+              >Initial Value of Investment:</label
             >
             <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
-              id="monthly_primary_expenses"
-              name="monthly_primary_expenses"
+              id="initial_value_of_investment"
+              name="initial_value_of_investment"
+              data-output-id="currency-output2"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output2">0</span></p>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Hitung Emergency Fund Ratio (EFR)
+          <div class="mb-3">
+            <label for="cost_of_investment" class="form-label"
+              >Cost of Investment:</label
+            >
+            <input
+              type="text"
+              step="any"
+              class="form-control"
+              id="cost_of_investment"
+              name="cost_of_investment"
+              data-output-id="currency-output3"
+              placeholder="Enter Amount"
+              required
+            />
+            <p>Amount: <span id="currency-output3">0</span></p>
+          </div>
+          <button id="calculate-btn" type="submit" class="btn btn-primary">
+            Calculate ROI
           </button>
         </form>
-        {% if emergency_fund_ratio is not none %}
+        {% if roi is not none %}
         <div class="mt-4">
-          <h3>Hasil Emergency Fund Ratio (EFR): {{ efr }} bulan</h3>
-          <p>Jumlah Dana Tunai Darurat: IDR {{ emergency_cash_fund }}</p>
-          <p>
-            Jumlah Pengeluaran Primer Bulanan: IDR {{ monthly_primary_expenses
-            }}
-          </p>
+          <h3 id="roi-result">ROI Result: {{ roi }}%</h3>
+
+          <div id="chart-container">
+            <canvas id="myChart"></canvas>
+          </div>
+
+          <p>Final Value of Investment: {{ final_value_of_investment }}</p>
+          <p>Initial Value of Investment: {{ initial_value_of_investment }}</p>
+          <p>Cost of Investment: {{ cost_of_investment }}</p>
         </div>
         {% endif %}
       </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

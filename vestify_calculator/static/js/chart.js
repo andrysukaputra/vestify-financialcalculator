@@ -1,4 +1,49 @@
-// Fungsi untuk memperbarui chart dengan nilai input baru
+let ctx = document.getElementById("myChart").getContext("2d");
+
+let data = {
+  labels: [
+    "Final Value of Investment",
+    "Initial Value of Investment",
+    "Cost of Investment",
+  ],
+  datasets: [
+    {
+      label: "Distribusi",
+      data: [0, 0, 0], // Data awal
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(54, 162, 235, 0.2)",
+        "rgba(75, 192, 192, 0.2)",
+      ],
+      borderColor: [
+        "rgba(255, 99, 132, 1)",
+        "rgba(54, 162, 235, 1)",
+        "rgba(75, 192, 192, 1)",
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
+
+let config = {
+  type: "pie",
+  data: data,
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+  },
+};
+
+let myChart = new Chart(ctx, config);
+
 function updateChart() {
   const FinalValueOfInvestment =
     document.getElementById("final_value_of_investment").value || 0;
@@ -16,7 +61,12 @@ function updateChart() {
   myChart.update(); // Refresh chart
 }
 
-// Tambahkan event listener ke btn
-document.querySelectorAll("btn btn-primary").forEach((button) => {
-  button.addEventListener("submit", updateChart);
-});
+window.onload = function () {
+  const roiResult = document.getElementById("roi-result");
+  const chartContainer = document.getElementById("chart-container");
+
+  if (roiResult.innerText !== "") {
+    chartContainer.style.display = "block";
+    updateChart();
+  }
+};

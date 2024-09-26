@@ -10,11 +10,15 @@ app = Flask(__name__)
 
 locale.setlocale(locale.LC_ALL, "")
 
-""" 
----Personal Finance Formulas Section---
-"""
 
-# Formula -> Return on Investment (ROI)
+# 1. Home/First Page
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+# 2. Formula dan Halaman ROI
+# 2. Formula -> Return on Investment (ROI)
 
 # Calculate Return on Investment (ROI) given final value of investment, initial value of investment, and cost of investment.
 # ROI is calculated using the following formula: (final value of investment - initial value of investment) / cost of investment * 100
@@ -36,13 +40,11 @@ def calculate_roi(final_value_of_investment, initial_value_of_investment, cost_o
         # return a string if the investment amount is zero
         return "Cost of investment amount cannot be zero."
 
-# 1. Halaman Utama
-@app.route('/', methods=['GET', 'POST'])
-def index():
+# 2. Halaman -> ROI    
+@app.route('/roi/', methods=['GET', 'POST'])
+def roi():
     """
-    Halaman Utama.
-
-    Halaman ini berisi kalkulator investasi, yaitu ROI (Return on Investment).
+    Halaman ini berisi kalkulator ROI (Return on Investment).
 
     :param float final value of investment: Total nilai akhir investasi
     :param float initial value of investment: Total nilai awal investasi
@@ -54,11 +56,17 @@ def index():
         initial_value_of_investment = float(request.form['initial_value_of_investment'])
         cost_of_investment = float(request.form['cost_of_investment'])
         roi = calculate_roi(final_value_of_investment, initial_value_of_investment, cost_of_investment)
-        formatted_fvoi = locale.currency(final_value_of_investment, grouping=True)
-        return render_template('index.html', roi=roi, final_value_of_investment=formatted_fvoi, initial_value_of_investment=initial_value_of_investment, cost_of_investment=cost_of_investment)
-    return render_template('index.html')
 
-# Formula -> Savings Rate
+        # Formated ROI to Local Currency
+        formatted_formfinal = locale.currency(final_value_of_investment, grouping=True)
+        formatted_forminitial = locale.currency(initial_value_of_investment, grouping=True)
+        formatted_formcost = locale.currency(cost_of_investment, grouping=True)
+        return render_template('roi.html', roi=roi, final_value_of_investment=formatted_formfinal, initial_value_of_investment=formatted_forminitial, cost_of_investment=formatted_formcost)
+    return render_template('roi.html')
+
+
+# 3. Formula dan Halaman Savings Rate
+# 3. Formula -> Savings Rate
 
 # This function calculates the Savings Rate given total annual savings, employer match, and annual gross income
 # The Savings Rate is calculated using the following formula: ((total_annual_savings + employer_match) / annual_gross_income) * 100
@@ -81,8 +89,34 @@ def calculate_sr(total_annual_savings, employer_match, annual_gross_income):
         # return a string if the monthly gross income amount is zero
         return "Annual Gross Income amount cannot be zero."
 
+# 3. Halaman untuk Savings Rate
+@app.route('/savings_rate/', methods=['GET', 'POST'])
+def savings_rate():
+    """
+    Halaman untuk menghitung Savings Ratio.
 
-# Formula -> Debt to Income Ratio (DTI)
+    Savings Ratio dihitung dengan membagi jumlah total tabungan dengan pendapatan bulanan bruto.
+
+    :param float savings_total: Jumlah total tabungan
+    :param float monthly_gross_income: Pendapatan bulanan bruto
+    :return: Hasil Savings Ratio, jumlah total tabungan, dan pendapatan bulanan bruto
+    """
+    if request.method == 'POST':
+        total_annual_savings = float(request.form['total_annual_savings'])
+        employer_match = float(request.form['employer_match'])
+        annual_gross_income = float(request.form['annual_gross_income'])
+        sr = calculate_sr(total_annual_savings, employer_match, annual_gross_income)
+        
+        # Formated Saving Rate to Local Currency
+        formatted_formtas = locale.currency(total_annual_savings, grouping=True)
+        formatted_formem = locale.currency(employer_match, grouping=True)
+        formatted_formagi = locale.currency(annual_gross_income, grouping=True)
+        return render_template('savings_rate.html', sr=sr, total_annual_savings=formatted_formtas, employer_match=formatted_formem, annual_gross_income=formatted_formagi)
+    return render_template('savings_rate.html')
+
+
+# 4. Formula dan Halaman Debt to Income Ratio
+# 4. Formula -> Debt to Income Ratio (DTI)
 
 # This function calculates the Debt to Income Ratio (DTI) given total debt and monthly gross income
 # The DTI is calculated using the following formula: (monthly_total_debt / monthly_gross_income) * 100
@@ -104,8 +138,32 @@ def calculate_dti(monthly_total_debt, monthly_gross_income):
         # return a string if the monthly gross income amount is zero
         return "Monthly Gross Income amount cannot be zero."
 
+# 4. Halaman untuk DTI
+@app.route('/dti_ratio/', methods=['GET', 'POST'])
+def dti_ratio():
+    """
+    Halaman untuk menghitung Debt to Income Ratio (DTI).
 
-# Formula -> Emergency Fund Ratio
+    DTI dihitung dengan membagi jumlah total utang bulanan dengan pendapatan bulanan bruto.
+
+    :param float monthly_total_debt: Jumlah total utang bulanan
+    :param float monthly_gross_income: Pendapatan bulanan bruto
+    :return: Hasil DTI, jumlah total utang bulanan, dan pendapatan bulanan bruto
+    """
+    if request.method == 'POST':
+        monthly_total_debt = float(request.form['monthly_total_debt'])
+        monthly_gross_income = float(request.form['monthly_gross_income'])
+        dti = calculate_dti(monthly_total_debt, monthly_gross_income)
+
+        # Formated DTI to Local Currency
+        formatted_formmtd = locale.currency(monthly_total_debt, grouping=True)
+        formatted_formmgi = locale.currency(monthly_gross_income, grouping=True)
+        return render_template('dti_ratio.html', dti=dti, monthly_total_debt=formatted_formmtd, monthly_gross_income=formatted_formmgi)
+    return render_template('dti_ratio.html')
+
+
+# 5. Formula dan Halaman Emergency Fund Ratio
+# 5. Formula -> Emergency Fund Ratio
 
 # This function calculates the Emergency Fund Ratio (EFR) given emergency cash fund and monthly primary expenses
 # The EFR is calculated using the following formula: (emergency_cash_fund / monthly_primary_expenses)
@@ -127,8 +185,32 @@ def calculate_efr(emergency_cash_fund, monthly_primary_expenses):
         # return a string if the monthly primary expenses is zero
         return "Monthly Primary Expenses amount cannot be zero."
 
+# 5. Halaman untuk Emergency Fund Ratio
+@app.route('/emergency_fund_ratio/', methods=['GET', 'POST'])
+def emergency_fund_ratio():
+    """
+    Halaman untuk menghitung Emergency Fund Ratio (EFR).
 
-# Formula -> Liquidity Ratio
+    EFR dihitung dengan membagi jumlah dana darurat dengan pengeluaran bulanan.
+
+    :param float emergency_fund: Jumlah dana darurat
+    :param float monthly_expenses: Pengeluaran bulanan
+    :return: Hasil EFR, dana darurat, dan pengeluaran bulanan
+    """
+    if request.method == 'POST':
+        emergency_cash_fund = float(request.form['emergency_cash_fund'])
+        monthly_primary_expenses = float(request.form['monthly_primary_expenses'])
+        efr = calculate_efr(emergency_cash_fund, monthly_primary_expenses)
+
+        # Formated EFR to Local Currency
+        formatted_formecf = locale.currency(emergency_cash_fund, grouping=True)
+        formatted_formmpe = locale.currency(monthly_primary_expenses, grouping=True)
+        return render_template('emergency_fund_ratio.html', efr=efr, emergency_cash_fund=formatted_formecf, monthly_primary_expenses=formatted_formmpe)
+    return render_template('emergency_fund_ratio.html')
+
+
+# 6. Formula dan Halaman Liquidity Ratio
+# 6. Formula -> Liquidity Ratio
 
 # This function calculates the Liquidity Ratio (LR) given current assets and monthly expenses
 # The LR is calculated using the following formula: (current_assets / monthly_expenses)
@@ -150,8 +232,32 @@ def calculate_lr(current_assets, monthly_expenses):
         # return a string if the monthly expenses is zero
         return "Monthly expenses amount cannot be zero."
 
+# 6. Halaman untuk Liquidity Ratio
+@app.route('/liquidity_ratio/', methods=['GET', 'POST'])
+def liquidity_ratio():
+    """
+    Halaman untuk menghitung Liquidity Ratio (LR).
 
-# Formula -> Net Worth to Assets Ratio
+    LR dihitung dengan membagi current assets dengan monthly expenses.
+
+    :param float current_assets: Jumlah current assets
+    :param float monthly_expenses: Pengeluaran bulanan
+    :return: Hasil LR, current assets, dan monthly expenses
+    """
+    if request.method == 'POST':
+        current_assets = float(request.form['current_assets'])
+        monthly_expenses = float(request.form['monthly_expenses'])
+        lr = calculate_lr(current_assets, monthly_expenses)
+
+        # Formated LR to Local Currency
+        formatted_formca = locale.currency(current_assets, grouping=True)
+        formatted_formme = locale.currency(monthly_expenses, grouping=True)
+        return render_template('liquidity_ratio.html', lr=lr, current_assets=formatted_formca, monthly_expenses=formatted_formme)
+    return render_template('liquidity_ratio.html')
+
+
+# 7. Formula dan Halaman Net Worth to Assets Ratio
+# 7. Formula -> Net Worth to Assets Ratio
 
 # This function calculates the Net Worth to Assets Ratio (NWAR) given net worth and total assets
 # The NWAR is calculated using the following formula: (net_worth / total_assets) * 100
@@ -173,8 +279,32 @@ def calculate_nwar(net_worth, total_assets):
         # return a string if the total assets amount is zero
         return "Total assets amount cannot be zero."
 
+# 7. Halaman untuk Net Worth to Assets Ratio
+@app.route('/net_worth_to_assets_ratio/', methods=['GET', 'POST'])
+def net_worth_to_assets_ratio():
+    """
+    Halaman untuk menghitung Net Worth to Assets Ratio (NWAR).
 
-# Formula -> Debt to Assets Ratio
+    NWAR dihitung dengan membagi total net worth dengan total assets.
+
+    :param float net_worth: Total net worth
+    :param float total_assets: Total assets
+    :return: Hasil NWAR, total net worth, dan total assets
+    """
+    if request.method == 'POST':
+        net_worth = float(request.form['net_worth'])
+        total_assets = float(request.form['total_assets'])
+        nwar = calculate_nwar(net_worth, total_assets)
+
+        # Formated NWAR to Local Currency
+        formatted_formnw = locale.currency(net_worth, grouping=True)
+        formatted_formta = locale.currency(total_assets, grouping=True)
+        return render_template('net_worth_to_assets_ratio.html', nwar=nwar, net_worth=formatted_formnw, total_assets=formatted_formta)
+    return render_template('net_worth_to_assets_ratio.html')
+
+
+# 8. Formula dan Halaman Debt to Assets Ratio
+# 8. Formula -> Debt to Assets Ratio
 
 # This function calculates the Debt to Assets Ratio (DAR) given total debt and total assets
 # The DAR is calculated using the following formula: (total_debt / total_assets) * 100
@@ -196,8 +326,32 @@ def calculate_dar(total_debt, total_assets):
         # return a string if the total assets amount is zero
         return "Total assets amount cannot be zero."
 
+# 8. Halaman untuk Debt to Assets Ratio
+@app.route('/debt_to_assets_ratio/', methods=['GET', 'POST'])
+def debt_to_assets_ratio():
+    """
+    Halaman untuk menghitung Debt to Assets Ratio (DAR).
 
-# Formula -> Investment Assets to Total Assets Ratio
+    DAR dihitung dengan membagi total utang dengan total assets.
+
+    :param float total_debt: Total utang
+    :param float total_assets: Total assets
+    :return: Hasil DAR, total utang, dan total assets
+    """
+    if request.method == 'POST':
+        total_debt = float(request.form['total_debt'])
+        total_assets = float(request.form['total_assets'])
+        dar = calculate_dar(total_debt, total_assets)
+
+        # Formated DAR to Local Currency
+        formatted_formtd = locale.currency(total_debt, grouping=True)
+        formatted_formta = locale.currency(total_assets, grouping=True)
+        return render_template('debt_to_assets_ratio.html', dar=dar, total_debt=formatted_formtd, total_assets=formatted_formta)
+    return render_template('debt_to_assets_ratio.html')
+
+
+# 9. Formula dan Halaman Assets to Total Assets Ratio
+# 9. Formula -> Investment Assets to Total Assets Ratio
 
 # This function calculates the Investment Assets to Total Assets Ratio (IATAR) given investment assets and total assets
 # The IATAR is calculated using the following formula: (investment_assets / total_assets) * 100
@@ -219,8 +373,32 @@ def calculate_iatar(investment_assets, total_assets):
         # return a string if the total assets amount is zero
         return "Total assets amount cannot be zero."
 
+# 9. Halaman untuk Investment Assets to Total Assets Ratio
+@app.route('/iatar/', methods=['GET', 'POST'])
+def iatar():
+    """
+    Halaman untuk menghitung Investment Assets to Total Assets Ratio (IATAR).
 
-# Formula -> Basic Housing Ratio
+    IATAR dihitung dengan membagi total investment assets dengan total assets.
+
+    :param float investment_assets: Total investment assets
+    :param float total_assets: Total assets
+    :return: Hasil IATAR, total investment assets, dan total assets
+    """
+    if request.method == 'POST':
+        investment_assets = float(request.form['investment_assets'])
+        total_assets = float(request.form['total_assets'])
+        iatar = calculate_iatar(investment_assets, total_assets)
+
+        # Formated IATAR to Local Currency
+        formatted_formia = locale.currency(investment_assets, grouping=True)
+        formatted_formta = locale.currency(total_assets, grouping=True)
+        return render_template('iatar.html', iatar=iatar, investment_assets=formatted_formia, total_assets=formatted_formta)
+    return render_template('iatar.html')
+
+
+# 10. Formula dan Halaman Basic Housing Ratio
+# 10. Formula -> Basic Housing Ratio
 
 # This function calculates the Basic Housing Ratio (BHR) given housing costs and monthly gross income
 # The BHR is calculated using the following formula: (housing_costs / monthly_gross_income) * 100
@@ -242,8 +420,32 @@ def calculate_bhr(housing_costs, monthly_gross_income):
         # return a string if the monthly gross income amount is zero
         return "Monthly gross income amount cannot be zero."
 
+# 10. Halaman untuk Basic Housing Ratio
+@app.route('/bhr/', methods=['GET', 'POST'])
+def bhr():
+    """
+    Halaman untuk menghitung Basic Housing Ratio (BHR).
 
-# Formula -> Broad Housing and Other Debts Ratio
+    BHR dihitung dengan membagi total housing costs dengan monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float monthly_gross_income: Monthly gross income
+    :return: Hasil BHR, total housing costs, dan monthly gross income
+    """
+    if request.method == 'POST':
+        housing_costs = float(request.form['housing_costs'])
+        monthly_gross_income = float(request.form['monthly_gross_income'])
+        bhr = calculate_bhr(housing_costs, monthly_gross_income)
+
+        # Formated BHR to Local Currency
+        formatted_formhc = locale.currency(housing_costs, grouping=True)
+        formatted_formmgi = locale.currency(monthly_gross_income, grouping=True)
+        return render_template('bhr.html', bhr=bhr, housing_costs=formatted_formhc, monthly_gross_income=formatted_formmgi)
+    return render_template('bhr.html')
+
+
+# 11. Formula dan Halaman Broad Housing and Other Debts Ratio
+# 11. Formula -> Broad Housing and Other Debts Ratio
 
 # This function calculates the Broad Housing and Other Debts Ratio (BHODR) given broad housing and other debts
 # The BHODR is calculated using the following formula: ((housing_costs + other_debt_payments) / monthly_gross_income) * 100
@@ -266,8 +468,35 @@ def calculate_bhodr(housing_costs, other_debt_payments, monthly_gross_income):
         # return a string if the monthly gross income amount is zero
         return "Monthly gross income amount cannot be zero."
 
+# 11. Halaman untuk Broad Housing and Other Debts Ratio
+@app.route('/bhodr/', methods=['GET', 'POST'])
+def bhodr():
+    """
+    Halaman untuk menghitung Broad Housing and Other Debts Ratio (BHR).
 
-# Formula -> Investment Assets to Gross Pay Ratio
+    BHR dihitung dengan menjumlah total housing costs dengan other debt payments dan membaginya dengan monthly gross income.
+
+    :param float housing_costs: Total housing costs
+    :param float other_debt_payments: Other debt payments
+    :param float monthly_gross_income: Monthly gross income
+    :return: Hasil BHR, total housing costs, other debt payments dan monthly gross income
+    """
+    if request.method == 'POST':
+        housing_costs = float(request.form['housing_costs'])
+        other_debt_payments = float(request.form['other_debt_payments'])
+        monthly_gross_income = float(request.form['monthly_gross_income'])
+        bhodr = calculate_bhodr(housing_costs, other_debt_payments,monthly_gross_income)
+
+        # Formated BHODR to Local Currency
+        formatted_formhc = locale.currency(housing_costs, grouping=True)
+        formatted_formodp = locale.currency(other_debt_payments, grouping=True)
+        formatted_formmgi = locale.currency(monthly_gross_income, grouping=True)
+        return render_template('bhodr.html', bhodr=bhodr, housing_costs=formatted_formhc, other_debt_payments=formatted_formodp, monthly_gross_income=formatted_formmgi)
+    return render_template('bhodr.html')
+
+
+# 12. Formula dan Halaman Investment Assets to Gross Pay Ratio
+# 12. Formula -> Investment Assets to Gross Pay Ratio
 
 # This function calculates the Investment Assets to Gross Pay Ratio (IAGPR) given investment assets, cash and annual gross pay
 # The IAGPR is calculated using the following formula: ((investment_assets + cash) / annual_gross_pay) * 100
@@ -290,186 +519,7 @@ def calculate_iagpr(investment_assets, cash, annual_gross_pay):
         # return a string if the annual gross pay amount is zero
         return "Annual gross pay amount cannot be zero."
 
-
-""" 
----Flask App Pages to HTML Section---
-"""
-
-# 2. Halaman untuk Savings Rate
-@app.route('/savings_rate/', methods=['GET', 'POST'])
-def savings_rate():
-    """
-    Halaman untuk menghitung Savings Ratio.
-
-    Savings Ratio dihitung dengan membagi jumlah total tabungan dengan pendapatan bulanan bruto.
-
-    :param float savings_total: Jumlah total tabungan
-    :param float monthly_gross_income: Pendapatan bulanan bruto
-    :return: Hasil Savings Ratio, jumlah total tabungan, dan pendapatan bulanan bruto
-    """
-    if request.method == 'POST':
-        total_annual_savings = float(request.form['total_annual_savings'])
-        employer_match = float(request.form['employer_match'])
-        annual_gross_income = float(request.form['annual_gross_income'])
-        sr = calculate_sr(total_annual_savings, employer_match, annual_gross_income)
-        return render_template('savings_rate.html', sr=sr, total_annual_savings=total_annual_savings, employer_match=employer_match, annual_gross_income=annual_gross_income)
-    return render_template('savings_rate.html')
-
-# 3. Halaman untuk DTI
-@app.route('/dti_ratio/', methods=['GET', 'POST'])
-def dti_ratio():
-    """
-    Halaman untuk menghitung Debt to Income Ratio (DTI).
-
-    DTI dihitung dengan membagi jumlah total utang bulanan dengan pendapatan bulanan bruto.
-
-    :param float monthly_total_debt: Jumlah total utang bulanan
-    :param float monthly_gross_income: Pendapatan bulanan bruto
-    :return: Hasil DTI, jumlah total utang bulanan, dan pendapatan bulanan bruto
-    """
-    if request.method == 'POST':
-        monthly_total_debt = float(request.form['monthly_total_debt'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        dti = calculate_dti(monthly_total_debt, monthly_gross_income)
-        return render_template('dti_ratio.html', dti=dti, monthly_total_debt=monthly_total_debt, monthly_gross_income=monthly_gross_income)
-    return render_template('dti_ratio.html')
-
-# 4. Halaman untuk Emergency Fund Ratio
-@app.route('/emergency_fund_ratio/', methods=['GET', 'POST'])
-def emergency_fund_ratio():
-    """
-    Halaman untuk menghitung Emergency Fund Ratio (EFR).
-
-    EFR dihitung dengan membagi jumlah dana darurat dengan pengeluaran bulanan.
-
-    :param float emergency_fund: Jumlah dana darurat
-    :param float monthly_expenses: Pengeluaran bulanan
-    :return: Hasil EFR, dana darurat, dan pengeluaran bulanan
-    """
-    if request.method == 'POST':
-        emergency_cash_fund = float(request.form['emergency_cash_fund'])
-        monthly_primary_expenses = float(request.form['monthly_primary_expenses'])
-        efr = calculate_efr(emergency_cash_fund, monthly_primary_expenses)
-        return render_template('emergency_fund_ratio.html', efr=efr, emergency_cash_fund=emergency_cash_fund, monthly_primary_expenses=monthly_primary_expenses)
-    return render_template('emergency_fund_ratio.html')
-
-# 5. Halaman untuk Liquidity Ratio
-@app.route('/liquidity_ratio/', methods=['GET', 'POST'])
-def liquidity_ratio():
-    """
-    Halaman untuk menghitung Liquidity Ratio (LR).
-
-    LR dihitung dengan membagi current assets dengan monthly expenses.
-
-    :param float current_assets: Jumlah current assets
-    :param float monthly_expenses: Pengeluaran bulanan
-    :return: Hasil LR, current assets, dan monthly expenses
-    """
-    if request.method == 'POST':
-        current_assets = float(request.form['current_assets'])
-        monthly_expenses = float(request.form['monthly_expenses'])
-        lr = calculate_lr(current_assets, monthly_expenses)
-        return render_template('liquidity_ratio.html', lr=lr, current_assets=current_assets, monthly_expenses=monthly_expenses)
-    return render_template('liquidity_ratio.html')
-
-# 6. Halaman untuk Net Worth to Assets Ratio
-@app.route('/net_worth_to_assets_ratio/', methods=['GET', 'POST'])
-def net_worth_to_assets_ratio():
-    """
-    Halaman untuk menghitung Net Worth to Assets Ratio (NWAR).
-
-    NWAR dihitung dengan membagi total net worth dengan total assets.
-
-    :param float net_worth: Total net worth
-    :param float total_assets: Total assets
-    :return: Hasil NWAR, total net worth, dan total assets
-    """
-    if request.method == 'POST':
-        net_worth = float(request.form['net_worth'])
-        total_assets = float(request.form['total_assets'])
-        nwar = calculate_nwar(net_worth, total_assets)
-        return render_template('net_worth_to_assets_ratio.html', nwar=nwar, net_worth=net_worth, total_assets=total_assets)
-    return render_template('net_worth_to_assets_ratio.html')
-
-# 7. Halaman untuk Debt to Assets Ratio
-@app.route('/debt_to_assets_ratio/', methods=['GET', 'POST'])
-def debt_to_assets_ratio():
-    """
-    Halaman untuk menghitung Debt to Assets Ratio (DAR).
-
-    DAR dihitung dengan membagi total utang dengan total assets.
-
-    :param float total_debt: Total utang
-    :param float total_assets: Total assets
-    :return: Hasil DAR, total utang, dan total assets
-    """
-    if request.method == 'POST':
-        total_debt = float(request.form['total_debt'])
-        total_assets = float(request.form['total_assets'])
-        dar = calculate_dar(total_debt, total_assets)
-        return render_template('debt_to_assets_ratio.html', dar=dar, total_debt=total_debt, total_assets=total_assets)
-    return render_template('debt_to_assets_ratio.html')
-
-# 8. Halaman untuk Investment Assets to Total Assets Ratio
-@app.route('/iatar/', methods=['GET', 'POST'])
-def iatar():
-    """
-    Halaman untuk menghitung Investment Assets to Total Assets Ratio (IATAR).
-
-    IATAR dihitung dengan membagi total investment assets dengan total assets.
-
-    :param float investment_assets: Total investment assets
-    :param float total_assets: Total assets
-    :return: Hasil IATAR, total investment assets, dan total assets
-    """
-    if request.method == 'POST':
-        investment_assets = float(request.form['investment_assets'])
-        total_assets = float(request.form['total_assets'])
-        iatar = calculate_iatar(investment_assets, total_assets)
-        return render_template('iatar.html', iatar=iatar, investment_assets=investment_assets, total_assets=total_assets)
-    return render_template('iatar.html')
-
-# 9. Halaman untuk Basic Housing Ratio
-@app.route('/bhr/', methods=['GET', 'POST'])
-def bhr():
-    """
-    Halaman untuk menghitung Basic Housing Ratio (BHR).
-
-    BHR dihitung dengan membagi total housing costs dengan monthly gross income.
-
-    :param float housing_costs: Total housing costs
-    :param float monthly_gross_income: Monthly gross income
-    :return: Hasil BHR, total housing costs, dan monthly gross income
-    """
-    if request.method == 'POST':
-        housing_costs = float(request.form['housing_costs'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        bhr = calculate_bhr(housing_costs, monthly_gross_income)
-        return render_template('bhr.html', bhr=bhr, housing_costs=housing_costs, monthly_gross_income=monthly_gross_income)
-    return render_template('bhr.html')
-
-# 10. Halaman untuk Broad Housing and Other Debts Ratio
-@app.route('/bhodr/', methods=['GET', 'POST'])
-def bhodr():
-    """
-    Halaman untuk menghitung Broad Housing and Other Debts Ratio (BHR).
-
-    BHR dihitung dengan menjumlah total housing costs dengan other debt payments dan membaginya dengan monthly gross income.
-
-    :param float housing_costs: Total housing costs
-    :param float other_debt_payments: Other debt payments
-    :param float monthly_gross_income: Monthly gross income
-    :return: Hasil BHR, total housing costs, other debt payments dan monthly gross income
-    """
-    if request.method == 'POST':
-        housing_costs = float(request.form['housing_costs'])
-        other_debt_payments = float(request.form['other_debt_payments'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        bhodr = calculate_bhodr(housing_costs, other_debt_payments,monthly_gross_income)
-        return render_template('bhodr.html', bhodr=bhodr, housing_costs=housing_costs, other_debt_payments=other_debt_payments, monthly_gross_income=monthly_gross_income)
-    return render_template('bhodr.html')
-
-# 11. Halaman untuk Investment Assets to Gross Pay Ratio
+# 12. Halaman untuk Investment Assets to Gross Pay Ratio
 @app.route('/iagpr/', methods=['GET', 'POST'])
 def iagpr():
     """
@@ -487,7 +537,12 @@ def iagpr():
         cash = float(request.form['cash'])
         annual_gross_income = float(request.form['annual_gross_income'])
         iagpr = calculate_iagpr(investment_assets, cash, annual_gross_income)
-        return render_template('iagpr.html', iagpr=iagpr, investment_assets=investment_assets, cash=cash, annual_gross_income=annual_gross_income)
+
+        # Formated IAGPR to Local Currency
+        formatted_formia = locale.currency(investment_assets, grouping=True)
+        formatted_formc = locale.currency(cash, grouping=True)
+        formatted_formagi = locale.currency(annual_gross_income, grouping=True)
+        return render_template('iagpr.html', iagpr=iagpr, investment_assets=formatted_formia, cash=formatted_formc, annual_gross_income=formatted_formagi)
     return render_template('iagpr.html')
 
 
