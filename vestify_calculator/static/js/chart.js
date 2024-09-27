@@ -1,72 +1,75 @@
-let ctx = document.getElementById("myChart").getContext("2d");
+const FinalValueOfInvestment = document
+  .getElementById("Final-Value-of-Investment")
+  .getAttribute("data-value");
 
-let data = {
-  labels: [
-    "Final Value of Investment",
-    "Initial Value of Investment",
-    "Cost of Investment",
-  ],
-  datasets: [
-    {
-      label: "Distribusi",
-      data: [0, 0, 0], // Data awal
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(75, 192, 192, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+const InitialValueOfInvestment = document
+  .getElementById("Initial-Value-of-Investment")
+  .getAttribute("data-value");
 
-let config = {
+const CostOfInvestment = document
+  .getElementById("Cost-of-Investment")
+  .getAttribute("data-value");
+
+const ROIResult = document
+  .getElementById("roi-result")
+  .getAttribute("data-value");
+
+const chartContainer = document.getElementById("chart-container");
+
+let userLocale = navigator.language || "en-US";
+let numberFormat = new Intl.NumberFormat(userLocale);
+let parts = numberFormat.formatToParts(1234567.89);
+
+let decimalSeparator = parts.find((part) => part.type === "decimal").value;
+let groupSeparator = parts.find((part) => part.type === "group").value;
+
+let cleanedvaluefinal = FinalValueOfInvestment.replace(
+  new RegExp("\\" + groupSeparator, "g"),
+  ""
+)
+  .replace(new RegExp("\\" + decimalSeparator), ".")
+  .replace(/[^\d.-]/g, "");
+
+let cleanedvalueinitial = InitialValueOfInvestment.replace(
+  new RegExp("\\" + groupSeparator, "g"),
+  ""
+)
+  .replace(new RegExp("\\" + decimalSeparator), ".")
+  .replace(/[^\d.-]/g, "");
+
+let cleanedvaluecost = CostOfInvestment.replace(
+  new RegExp("\\" + groupSeparator, "g"),
+  ""
+)
+  .replace(new RegExp("\\" + decimalSeparator), ".")
+  .replace(/[^\d.-]/g, "");
+
+let decimalfinalvalue = parseFloat(cleanedvaluefinal);
+let decimalinitialvalue = parseFloat(cleanedvalueinitial);
+let decimalcost = parseFloat(cleanedvaluecost);
+
+console.log(decimalfinalvalue, decimalinitialvalue, decimalcost);
+
+if (ROIResult !== "") chartContainer.style.display = "block";
+
+const ctx = document.getElementById("ROIChart").getContext("2d");
+
+const ROIChart = new Chart(ctx, {
   type: "pie",
-  data: data,
-  options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: {
-        position: "top",
+  data: {
+    labels: [
+      "Final Value of Investment",
+      "Initial Value of Investment",
+      "Cost of Investment",
+    ],
+    datasets: [
+      {
+        data: [decimalfinalvalue, decimalinitialvalue, decimalcost],
+        backgroundColor: ["#007bff", "#dc3545", "#ffc107"],
       },
-      tooltip: {
-        enabled: true,
-      },
-    },
+    ],
   },
-};
-
-let myChart = new Chart(ctx, config);
-
-function updateChart() {
-  const FinalValueOfInvestment =
-    document.getElementById("final_value_of_investment").value || 0;
-  const InitialValueOfInvestment =
-    document.getElementById("initial_value_of_investment").value || 0;
-  const CostOfInvestment =
-    document.getElementById("cost_of_investment").value || 0;
-
-  // Update data chart
-  myChart.data.datasets[0].data = [
-    FinalValueOfInvestment,
-    InitialValueOfInvestment,
-    CostOfInvestment,
-  ];
-  myChart.update(); // Refresh chart
-}
-
-window.onload = function () {
-  const roiResult = document.getElementById("roi-result");
-  const chartContainer = document.getElementById("chart-container");
-
-  if (roiResult.innerText !== "") {
-    chartContainer.style.display = "block";
-    updateChart();
-  }
-};
+  option: {
+    responsive: true,
+  },
+});

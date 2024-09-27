@@ -62,7 +62,7 @@ def roi():
         formatted_forminitial = locale.currency(initial_value_of_investment, grouping=True)
         formatted_formcost = locale.currency(cost_of_investment, grouping=True)
         return render_template('roi.html', roi=roi, final_value_of_investment=formatted_formfinal, initial_value_of_investment=formatted_forminitial, cost_of_investment=formatted_formcost)
-    return render_template('roi.html')
+    return render_template('roi.html', roi=None)
 
 
 # 3. Formula dan Halaman Savings Rate

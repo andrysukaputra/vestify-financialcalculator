@@ -14,11 +14,12 @@ document.querySelectorAll("input").forEach(function (inputField) {
 
     // Dapatkan lokal pengguna
     let userLocale = navigator.language || "en-US";
+    let userCurrency = userLocale === "en-US" ? "USD" : "IDR";
 
     // Format angka sesuai dengan lokal pengguna tanpa menentukan simbol mata uang
     let formattedValue = parseFloat(numericValue).toLocaleString(userLocale, {
-      style: "currency",
-      currency: "IDR", // "IDR" bisa diubah dengan mata uang sesuai lokal pengguna
+      style: "currency", // "IDR" bisa diubah dengan mata uang sesuai lokal pengguna
+      currency: userCurrency,
       currencyDisplay: "symbol",
       minimumFractionDigits: 2,
       maximumFractionDigits: 20,
