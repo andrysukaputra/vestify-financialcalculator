@@ -223,7 +223,7 @@ BHODR = (housing costs + other debt payments) / gross income) * 100
 """
 def calculate_bhodr(housing_costs, other_debt_payments, gross_income):
     try:
-        bhodr = (housing_costs + other_debt_payments) / gross_income) * 100
+        bhodr = ((housing_costs + other_debt_payments) / gross_income) * 100
         return round(bhodr, 2)
     except ZeroDivisionError:
         return "Gross Income amount cannot be zero."
