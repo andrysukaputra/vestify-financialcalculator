@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ROI</title>
+    <title>Return on Investment (ROI)</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -35,22 +35,18 @@
         <a class="nav-link active" href="{{ url_for('roi') }}"
           >Return on Investment (ROI)</a
         >
-        <a class="nav-link" href="{{ url_for('savings_rate') }}"
-          >Savings Rate (SR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dti_ratio') }}"
+        <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
+        <a class="nav-link" href="{{ url_for('dti') }}"
           >Debt to Income Ratio (DTI)</a
         >
-        <a class="nav-link" href="{{ url_for('emergency_fund_ratio') }}"
+        <a class="nav-link" href="{{ url_for('efr') }}"
           >Emergency Fund Ratio (EFR)</a
         >
-        <a class="nav-link" href="{{ url_for('liquidity_ratio') }}"
-          >Liquidity Ratio (LR)</a
-        >
-        <a class="nav-link" href="{{ url_for('net_worth_to_assets_ratio') }}"
+        <a class="nav-link" href="{{ url_for('lr') }}">Liquidity Ratio (LR)</a>
+        <a class="nav-link" href="{{ url_for('nwar') }}"
           >Net Worth to Assets Ratio (NWAR)</a
         >
-        <a class="nav-link" href="{{ url_for('debt_to_assets_ratio') }}"
+        <a class="nav-link" href="{{ url_for('dar') }}"
           >Debt to Assets Ratio (DAR)</a
         >
         <a class="nav-link" href="{{ url_for('iatar') }}"
@@ -125,31 +121,55 @@
         </form>
         {% if roi is not none %}
         <div class="mt-4">
-          <h3 id="roi-result" data-value="{{ roi }}">ROI Result: {{ roi }}%</h3>
-          <div id="chart-container">
-            <canvas id="ROIChart"></canvas>
+          <h3 id="roi-investment-distribution-title">
+            ROI Investment Distribution
+          </h3>
+          <div id="roi-pie-chart-container">
+            <canvas id="roi-pie-chart"></canvas>
           </div>
+          <p>Final Value of Investment: {{ final_value_of_investment }}</p>
           <p
-            id="Final-Value-of-Investment"
-            data-value="{{ final_value_of_investment }}"
+            id="final-value-of-investment-pie"
+            data-value="{{ final_value_of_investment_pie }}"
           >
-            Final Value of Investment: {{ final_value_of_investment }}
+            %Final Value: {{ final_value_of_investment_pie }}
           </p>
+          <p>Initial Value of Investment: {{ initial_value_of_investment }}</p>
           <p
-            id="Initial-Value-of-Investment"
-            data-value="{{ initial_value_of_investment }}"
+            id="initial-value-of-investment-pie"
+            data-value="{{ initial_value_of_investment_pie }}"
           >
-            Initial Value of Investment: {{ initial_value_of_investment }}
+            %Initial Value: {{ initial_value_of_investment_pie }}
           </p>
-          <p id="Cost-of-Investment" data-value="{{ cost_of_investment }}">
-            Cost of Investment: {{ cost_of_investment }}
+          <p>Cost of Investment: {{ cost_of_investment }}</p>
+          <p
+            id="cost-of-investment-pie"
+            data-value="{{ cost_of_investment_pie }}"
+          >
+            %Cost Value: {{ cost_of_investment_pie }}
+          </p>
+          <h3 id="roi-result-title">ROI Result</h3>
+          <h3 id="roi-result" data-value="{{ roi }}">Your ROI: {{ roi }}%</h3>
+          <div id="roi-bar-chart-container">
+            <canvas id="roi-bar-chart"></canvas>
+          </div>
+          <p id="roi-result-description">
+            Rasio laba atas investasi mengukur kinerja aset investasi Anda
+            selama satu tahun. Investasi awal adalah nilai aset dari tahun
+            sebelumnya dan investasi akhir adalah nilai aset pada akhir tahun
+            berjalan. Rasio laba atas investasi minimum berkisar 5%. Jika lebih
+            dari 10% termasuk berkategori kuat.Yang perlu diperhatikan adalah
+            tujuan, jangka waktu, dan toleransi risiko Anda akan menentukan
+            tujuan kinerja spesifik Anda. Anda dapat mencari opsi dengan rekam
+            jejak pengembalian yang baik, seperti saham, reksa dana, obligasi,
+            dll.
           </p>
         </div>
         {% endif %}
       </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/roi_chart_data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>

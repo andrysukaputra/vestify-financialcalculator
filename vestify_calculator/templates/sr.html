@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings Rate</title>
+    <title>Savings Rate (SR)</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/navbar.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="d-flex">
@@ -34,22 +35,18 @@
         <a class="nav-link active" href="{{ url_for('roi') }}"
           >Return on Investment (ROI)</a
         >
-        <a class="nav-link" href="{{ url_for('savings_rate') }}"
-          >Savings Rate (SR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dti_ratio') }}"
+        <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
+        <a class="nav-link" href="{{ url_for('dti') }}"
           >Debt to Income Ratio (DTI)</a
         >
-        <a class="nav-link" href="{{ url_for('emergency_fund_ratio') }}"
+        <a class="nav-link" href="{{ url_for('efr') }}"
           >Emergency Fund Ratio (EFR)</a
         >
-        <a class="nav-link" href="{{ url_for('liquidity_ratio') }}"
-          >Liquidity Ratio (LR)</a
-        >
-        <a class="nav-link" href="{{ url_for('net_worth_to_assets_ratio') }}"
+        <a class="nav-link" href="{{ url_for('lr') }}">Liquidity Ratio (LR)</a>
+        <a class="nav-link" href="{{ url_for('nwar') }}"
           >Net Worth to Assets Ratio (NWAR)</a
         >
-        <a class="nav-link" href="{{ url_for('debt_to_assets_ratio') }}"
+        <a class="nav-link" href="{{ url_for('dar') }}"
           >Debt to Assets Ratio (DAR)</a
         >
         <a class="nav-link" href="{{ url_for('iatar') }}"
@@ -69,13 +66,10 @@
       <!-- Konten Utama untuk Savings Ratio -->
       <div class="container-fluid">
         <h1 class="mt-5">Savings Rate (SR)</h1>
-        <p>Halaman ini berisi kalkulator investasi lainnya.</p>
-
-        <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
             <label for="total_annual_savings" class="form-label"
-              >Total Tabungan Tahunan (IDR):</label
+              >Total Annual Savings:</label
             >
             <input
               type="text"
@@ -91,7 +85,7 @@
           </div>
           <div class="mb-3">
             <label for="employer_match" class="form-label"
-              >Kontribusi Pemberi Kerja (IDR):</label
+              >Employer Match:</label
             >
             <input
               type="text"
@@ -107,7 +101,7 @@
           </div>
           <div class="mb-3">
             <label for="annual_gross_income" class="form-label"
-              >Pendapatan Tahunan Bruto (IDR):</label
+              >Annual Gross Income:</label
             >
             <input
               type="text"
@@ -122,20 +116,47 @@
             <p>Amount: <span id="currency-output3">0</span></p>
           </div>
           <button id="calculate-btn" type="submit" class="btn btn-primary">
-            Hitung Savings Rate
+            Calculate SR
           </button>
         </form>
         {% if sr is not none %}
         <div class="mt-4">
-          <h3 id="sr-result">Hasil Savings Rate: {{ sr }}%</h3>
-          <p>Total Tabungan Tahunan: IDR {{ total_annual_savings }}</p>
-          <p>Kontribusi Pemberi Kerja: IDR {{ employer_match }}</p>
-          <p>Pendapatan Tahunan Bruto: IDR {{ annual_gross_income }}</p>
+          <h3 id="sr-distribution-title">Savings Rate Distribution</h3>
+          <div id="sr-pie-chart-container">
+            <canvas id="sr-pie-chart"></canvas>
+          </div>
+          <p>Total Annual Savings: {{ total_annual_savings }}</p>
+          <p
+            id="total-annual-savings-pie"
+            data-value="{{ total_annual_savings_pie }}"
+          >
+            %Total Annual Savings: {{ total_annual_savings_pie }}
+          </p>
+          <p>Employer Match: {{ employer_match }}</p>
+          <p id="employer-match-pie" data-value="{{ employer_match_pie }}">
+            %Employer Match: {{ employer_match_pie }}
+          </p>
+          <p>Annual Gross Income: {{ annual_gross_income }}</p>
+          <p
+            id="annual-gross-income-pie"
+            data-value="{{ annual_gross_income_pie }}"
+          >
+            %Annual Gross Income: {{ annual_gross_income_pie }}
+          </p>
+          <h3 id="sr-result-title">Savings Rate Result</h3>
+          <h3 id="sr-result" data-value="{{ sr }}">
+            Your Savings Rate: {{ sr }}%
+          </h3>
+          <div id="sr-bar-chart-container">
+            <canvas id="sr-bar-chart"></canvas>
+          </div>
+          <p id="sr-result-description">bla bla bla bla bla bla bla ...</p>
         </div>
         {% endif %}
       </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/sr_chart_data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>

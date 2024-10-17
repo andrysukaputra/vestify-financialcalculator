@@ -46,12 +46,13 @@ p {
   margin-top: 1.5rem;
 }
 
-#chart-container {
+#roi-pie-chart-container,
+#sr-pie-chart-container {
   display: none;
 }
 
-#ROIChart {
-  display: flex;
-  width: 400px;
-  height: 400px;
+#final-value-of-investment-pie,
+#initial-value-of-investment-pie,
+#cost-of-investment-pie {
+  display: none;
 }
