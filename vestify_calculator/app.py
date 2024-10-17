@@ -1,360 +1,506 @@
-# Main application file for Flask web application
-# This file contains the main logic to serve the web pages, and
-# call the functions to calculate the desired metrics.
-
+# Import resources from Flask = web app, Locale = for local currency
 from flask import Flask, render_template, request
+import locale
 
 # Create the Flask application
 app = Flask(__name__)
 
+# Set locale to local currency
+locale.setlocale(locale.LC_ALL, "")
 
-""" 
----Personal Finance Formulas Section---
+# Page Contents
+"""
+Vestify App - Personal Finance Calculator
+Content:
+1. Index -> Home
+2. Features -> SR, EFR, BHR, BHODR, DAR, NWAR, ROI, IAGPR
+3. Savings Rate (SR)
+---> SR = ((annual savings + employer match) / annual gross income) * 100
+4. Emergency Fund Ratio (EFR)
+---> EFR = (emergency cash fund / monthly primary expenses) * 100
+5. Basic Housing Ratio (BHR)
+---> BHR = (housing costs / gross income) * 100
+6. Broad Housing and Other Debts Ratio (BHODR)
+---> BHODR = (housing costs + other debt payments) / gross income) * 100
+7. Debt to Assets Ratio (DAR)
+---> DAR = (total debt / total assets) * 100
+8. Net Worth to Assets Ratio (NWAR)
+---> NWAR = ((total assets - liabilities) / total assets) * 100
+9. Return on Investments Ratio (ROI)
+---> ROI = ((ending investments - beginning investments) / beginning investments) * 100
+10. Investment Assets to Gross Pay Ratio (IAGPR)
+---> IAGPR = ((investment assets + cash) / annual gross income) * 100
 """
 
-# Formula -> Return on Investment (ROI)
-
-# Calculate Return on Investment (ROI) given investment and profit.
-# ROI is calculated using the following formula: (profit - investment) / investment * 100
-# If the investment amount is zero, the function returns a string indicating this.
-def calculate_roi(investment, profit):
-    """
-    Calculate Return on Investment (ROI) given investment and profit.
-
-    :param float investment: Total investment amount
-    :param float profit: Total profit amount
-    :return: ROI, or string if error occurs
-    """
-    try:
-        # calculate ROI using the formula
-        roi = (profit - investment) / investment * 100
-        # round the result to 2 decimal places
-        return round(roi, 2)
-    except ZeroDivisionError:
-        # return a string if the investment amount is zero
-        return "Investment amount cannot be zero."
-
-
-# Formula -> Savings Ratio
-
-# This function calculates the Savings Ratio given total savings and monthly gross income
-# The Savings Ratio is calculated using the following formula: (savings_total / monthly_gross_income) * 100
-# If the monthly gross income amount is zero, the function returns a string indicating this.
-def calculate_savings_ratio(savings_total, monthly_gross_income):
-    """
-    Calculate Savings Ratio given total savings and monthly gross income.
-
-    :param float savings_total: Total savings amount
-    :param float monthly_gross_income: Monthly gross income
-    :return: Savings Ratio, or string if error occurs
-    """
-    try:
-        # calculate Savings Ratio using the formula
-        savings_ratio = (savings_total / monthly_gross_income) * 100
-        # round the result to 2 decimal places
-        return round(savings_ratio, 2)
-    except ZeroDivisionError:
-        # return a string if the monthly gross income amount is zero
-        return "Monthly Gross Income amount cannot be zero."
-
-
-# Formula -> Debt to Income Ratio (DTI)
-
-# This function calculates the Debt to Income Ratio (DTI) given total debt and monthly gross income
-# The DTI is calculated using the following formula: (monthly_total_debt / monthly_gross_income) * 100
-# If the monthly gross income amount is zero, the function returns a string indicating this.
-def calculate_dti(monthly_total_debt, monthly_gross_income):
-    """
-    Calculate Debt to Income Ratio (DTI) given total debt and monthly gross income.
-
-    :param float monthly_total_debt: Total debt amount
-    :param float monthly_gross_income: Monthly gross income
-    :return: DTI, or string if error occurs
-    """
-    try:
-        # calculate DTI using the formula
-        dti = (monthly_total_debt / monthly_gross_income) * 100
-        # round the result to 2 decimal places
-        return round(dti, 2)
-    except ZeroDivisionError:
-        # return a string if the monthly gross income amount is zero
-        return "Monthly Gross Income amount cannot be zero."
-
-
-# Formula -> Emergency Fund Ratio
-
-# This function calculates the Emergency Fund Ratio (EFR) given emergency fund and monthly expenses
-# The EFR is calculated using the following formula: (emergency_fund / monthly_expenses)
-# If the monthly expenses amount is zero, the function returns a string indicating this.
-def calculate_efr(emergency_fund, monthly_expenses):
-    """
-    Calculate Emergency Fund Ratio (EFR) given emergency fund and monthly expenses.
-
-    :param float emergency_fund: Total emergency fund amount
-    :param float monthly_expenses: Monthly expenses
-    :return: EFR, or string if error occurs
-    """
-    try:
-        # calculate EFR using the formula
-        efr = (emergency_fund / monthly_expenses)
-        # round the result to 2 decimal places
-        return round(efr, 2)
-    except ZeroDivisionError:
-        # return a string if the monthly expenses is zero
-        return "Monthly Expenses amount cannot be zero."
-
-
-# Formula -> Liquidity Ratio
-
-# This function calculates the Liquidity Ratio (LR) given current assets and monthly expenses
-# The LR is calculated using the following formula: (current_assets / monthly_expenses)
-# If the monthly expenses amount is zero, the function returns a string indicating this.
-def calculate_lr(current_assets, monthly_expenses):
-    """
-    Calculate Liquidity Ratio (LR) given current assets and monthly expenses.
-
-    :param float current_assets: Total current assets
-    :param float monthly_expenses: Monthly expenses
-    :return: LR, or string if error occurs
-    """
-    try:
-        # calculate LR using the formula
-        lr = (current_assets / monthly_expenses)
-        # round the result to 2 decimal places
-        return round(lr, 2)
-    except ZeroDivisionError:
-        # return a string if the monthly expenses is zero
-        return "Monthly expenses amount cannot be zero."
-
-
-# Formula -> Net Worth to Assets Ratio
-
-# This function calculates the Net Worth to Assets Ratio (NWAR) given net worth and total assets
-# The NWAR is calculated using the following formula: (net_worth / total_assets) * 100
-# If the total assets amount is zero, the function returns a string indicating this.
-def calculate_nwar(net_worth, total_assets):
-    """
-    Calculate Net Worth to Assets Ratio (NWAR) given net worth and total assets.
-
-    :param float net_worth: Total net worth
-    :param float total_assets: Total assets
-    :return: NWAR, or string if error occurs
-    """
-    try:
-        # calculate NWAR using the formula
-        nwar = (net_worth / total_assets) * 100
-        # round the result to 2 decimal places
-        return round(nwar, 2)
-    except ZeroDivisionError:
-        # return a string if the total assets amount is zero
-        return "Total assets amount cannot be zero."
-
-
-# Formula -> Debt to Assets Ratio
-
-# This function calculates the Debt to Assets Ratio (DAR) given total debt and total assets
-# The DAR is calculated using the following formula: (total_debt / total_assets) * 100
-# If the total assets amount is zero, the function returns a string indicating this.
-def calculate_dar(total_debt, total_assets):
-    """
-    Calculate Debt to Assets Ratio (DAR) given total debt and total assets.
-
-    :param float total_debt: Total debt
-    :param float total_assets: Total assets
-    :return: DAR, or string if error occurs
-    """
-    try:
-        # calculate DAR using the formula
-        dar = (total_debt / total_assets) * 100
-        # round the result to 2 decimal places
-        return round(dar, 2)
-    except ZeroDivisionError:
-        # return a string if the total assets amount is zero
-        return "Total assets amount cannot be zero."
-
-
-# Formula -> Investment Assets to Total Assets Ratio
-
-# This function calculates the Investment Assets to Total Assets Ratio (IATAR) given investment assets and total assets
-# The IATAR is calculated using the following formula: (investment_assets / total_assets) * 100
-# If the total assets amount is zero, the function returns a string indicating this.
-def calculate_iatar(investment_assets, total_assets):
-    """
-    Calculate Investment Assets to Total Assets Ratio (IATAR) given investment assets and total assets.
-
-    :param float investment_assets: Total investment assets
-    :param float total_assets: Total assets
-    :return: IATAR, or string if error occurs
-    """
-    try:
-        # calculate IATAR using the formula
-        iatar = (investment_assets / total_assets) * 100
-        # round the result to 2 decimal places
-        return round(iatar, 2)
-    except ZeroDivisionError:
-        # return a string if the total assets amount is zero
-        return "Total assets amount cannot be zero."
-
-
-# Formula -> 
-
-
-""" 
----Flask App Pages to HTML Section---
-"""
-
-# 1. Halaman Utama
+#------------------------Beginning Index Page------------------------
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    """
-    Halaman Utama.
-
-    Halaman ini berisi kalkulator investasi, yaitu ROI (Return on Investment).
-
-    :param float investment: Jumlah investasi
-    :param float profit: Jumlah keuntungan
-    :return: Hasil ROI, jumlah investasi, dan jumlah keuntungan
-    """
-    if request.method == 'POST':
-        investment = float(request.form['investment'])
-        profit = float(request.form['profit'])
-        roi = calculate_roi(investment, profit)
-        return render_template('index.html', roi=roi, investment=investment, profit=profit)
     return render_template('index.html')
+#-------------------------End Index Page--------------------------
 
-# 2. Halaman untuk Savings Ratio
-@app.route('/savings_ratio/', methods=['GET', 'POST'])
-def savings_ratio():
-    """
-    Halaman untuk menghitung Savings Ratio.
+#------------------------Beginning Savings Rate Page------------------------
+# Savings Rate Formula
+"""
+SR = ((annual savings + employer match) / annual gross income) * 100
+"""
+def calculate_sr(annual_savings, employer_match, annual_gross_income):
+    try:
+        sr = ((annual_savings + employer_match) / annual_gross_income) * 100
+        return round(sr, 2)
+    except ZeroDivisionError:
+        return "Annual Gross Income amount cannot be zero."
 
-    Savings Ratio dihitung dengan membagi jumlah total tabungan dengan pendapatan bulanan bruto.
+# Savings Rate %Distribution
+# Annual Savings Distribution
+def calculate_annual_savings_dist(annual_savings, employer_match, annual_gross_income):
+    try:
+        annual_savings_dist = (annual_savings / (annual_savings + employer_match + annual_gross_income)) * 100
+        return round(annual_savings_dist, 2)
+    except ZeroDivisionError:
+        return "Annual Savings amount cannot be zero."
 
-    :param float savings_total: Jumlah total tabungan
-    :param float monthly_gross_income: Pendapatan bulanan bruto
-    :return: Hasil Savings Ratio, jumlah total tabungan, dan pendapatan bulanan bruto
-    """
-    if request.method == 'POST':
-        savings_total = float(request.form['savings_total'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        savings_ratio = calculate_savings_ratio(savings_total, monthly_gross_income)
-        return render_template('savings_ratio.html', savings_ratio=savings_ratio, savings_total=savings_total, monthly_gross_income=monthly_gross_income)
-    return render_template('savings_ratio.html')
+# Employer Match Distribution
+def calculate_employer_match_dist(annual_savings, employer_match, annual_gross_income):
+    try:
+        employer_match_dist = (employer_match / (annual_savings + employer_match + annual_gross_income)) * 100
+        return round(employer_match_dist, 2)
+    except ZeroDivisionError:
+        return "Employer Match amount cannot be zero."
 
-# 3. Halaman untuk DTI
-@app.route('/dti_ratio/', methods=['GET', 'POST'])
-def dti_ratio():
-    """
-    Halaman untuk menghitung Debt to Income Ratio (DTI).
+# Annual Gross Income Distribution
+def calculate_annual_gross_income_dist(annual_savings, employer_match, annual_gross_income):
+    try:
+        annual_gross_income_dist = (annual_gross_income / (annual_savings + employer_match + annual_gross_income)) * 100
+        return round(annual_gross_income_dist, 2)
+    except ZeroDivisionError:
+        return "Annual Gross Income amount cannot be zero."
 
-    DTI dihitung dengan membagi jumlah total utang bulanan dengan pendapatan bulanan bruto.
+# Savings Rate Route HTML
+@app.route("/sr/", methods = ["GET", "POST"])
+def sr():
+    if request.method == "POST":
+        annual_savings = float(request.form["annual_savings"])
+        employer_match = float(request.form["employer_match"])
+        annual_gross_income = float(request.form["annual_gross_income"])
+        sr = calculate_sr(annual_savings, employer_match, annual_gross_income)
 
-    :param float monthly_total_debt: Jumlah total utang bulanan
-    :param float monthly_gross_income: Pendapatan bulanan bruto
-    :return: Hasil DTI, jumlah total utang bulanan, dan pendapatan bulanan bruto
-    """
-    if request.method == 'POST':
-        monthly_total_debt = float(request.form['monthly_total_debt'])
-        monthly_gross_income = float(request.form['monthly_gross_income'])
-        dti = calculate_dti(monthly_total_debt, monthly_gross_income)
-        return render_template('dti_ratio.html', dti=dti, monthly_total_debt=monthly_total_debt, monthly_gross_income=monthly_gross_income)
-    return render_template('dti_ratio.html')
+        # Savings Rate %Distribution
+        annual_savings_dist = calculate_annual_savings_dist(annual_savings, employer_match, annual_gross_income)
+        employer_match_dist = calculate_employer_match_dist(annual_savings, employer_match, annual_gross_income)
+        annual_gross_income_dist = calculate_annual_gross_income_dist(annual_savings, employer_match, annual_gross_income)
 
-# 4. Halaman untuk Emergency Fund Ratio
-@app.route('/emergency_fund_ratio/', methods=['GET', 'POST'])
-def emergency_fund_ratio():
-    """
-    Halaman untuk menghitung Emergency Fund Ratio (EFR).
+        # Format Savings Rate to Local Currency
+        formatted_formtas = locale.currency(annual_savings, grouping=True)
+        formatted_formem = locale.currency(employer_match, grouping=True)
+        formatted_formagi = locale.currency(annual_gross_income, grouping=True)
+        return render_template("sr.html", sr = sr, 
+                               annual_savings = formatted_formtas, 
+                               employer_match = formatted_formem, 
+                               annual_gross_income = formatted_formagi,
+                               annual_savings_dist = annual_savings_dist,
+                               employer_match_dist = employer_match_dist,
+                               annual_gross_income_dist = annual_gross_income_dist
+                               )
+    return render_template("sr.html", sr = None)
+#--------------------------End Savings Rate Page--------------------------
 
-    EFR dihitung dengan membagi jumlah dana darurat dengan pengeluaran bulanan.
+#------------------------Beginning Emergency Fund Ratio Page------------------------
+# Emergency Fund Ratio Formula
+"""
+EFR = (emergency cash fund / monthly primary expenses) * 100
+"""
+def calculate_efr(emergency_cash_fund, monthly_primary_expenses):
+    try:
+        efr = (emergency_cash_fund / monthly_primary_expenses) * 100
+        return round(efr, 2)
+    except ZeroDivisionError:
+        return "Monthly Primary Expenses amount cannot be zero."
 
-    :param float emergency_fund: Jumlah dana darurat
-    :param float monthly_expenses: Pengeluaran bulanan
-    :return: Hasil EFR, dana darurat, dan pengeluaran bulanan
-    """
-    if request.method == 'POST':
-        emergency_fund = float(request.form['emergency_fund'])
-        monthly_expenses = float(request.form['monthly_expenses'])
-        efr = calculate_efr(emergency_fund, monthly_expenses)
-        return render_template('emergency_fund_ratio.html', efr=efr, emergency_fund=emergency_fund, monthly_expenses=monthly_expenses)
-    return render_template('emergency_fund_ratio.html')
+# Emergency Fund Ratio %Distribution
+# Emergency Cash Fund Distribution
+def calculate_emergency_cash_fund_dist(emergency_cash_fund, monthly_primary_expenses):
+    try:
+        emergency_cash_fund_dist = (emergency_cash_fund / (emergency_cash_fund + monthly_primary_expenses)) * 100
+        return round(emergency_cash_fund_dist, 2)
+    except ZeroDivisionError:
+        return "Emergency Cash Fund amount cannot be zero."
 
-# 5. Halaman untuk Liquidity Ratio
-@app.route('/liquidity_ratio/', methods=['GET', 'POST'])
-def liquidity_ratio():
-    """
-    Halaman untuk menghitung Liquidity Ratio (LR).
+# Monthly Primary Expenses Distribution
+def calculate_monthly_primary_expenses_dist(emergency_cash_fund, monthly_primary_expenses):
+    try:
+        monthly_primary_expenses_dist = (monthly_primary_expenses / (emergency_cash_fund + monthly_primary_expenses)) * 100
+        return round(monthly_primary_expenses_dist, 2)
+    except ZeroDivisionError:
+        return "Monthly Primary Expenses amount cannot be zero."
 
-    LR dihitung dengan membagi current assets dengan monthly expenses.
+# Emergency Fund Ratio Route HTML
+@app.route("/efr/", methods = ["GET", "POST"])
+def efr():
+    if request.method == "POST":
+        emergency_cash_fund = float(request.form["emergency_cash_fund"])
+        monthly_primary_expenses = float(request.form["monthly_primary_expenses"])
+        efr = calculate_efr(emergency_cash_fund, monthly_primary_expenses)
 
-    :param float current_assets: Jumlah current assets
-    :param float monthly_expenses: Pengeluaran bulanan
-    :return: Hasil LR, current assets, dan monthly expenses
-    """
-    if request.method == 'POST':
-        current_assets = float(request.form['current_assets'])
-        monthly_expenses = float(request.form['monthly_expenses'])
-        lr = calculate_lr(current_assets, monthly_expenses)
-        return render_template('liquidity_ratio.html', lr=lr, current_assets=current_assets, monthly_expenses=monthly_expenses)
-    return render_template('liquidity_ratio.html')
+        # Emergency Fund Ratio %Distribution
+        emergency_cash_fund_dist = calculate_emergency_cash_fund_dist(emergency_cash_fund, monthly_primary_expenses)
+        monthly_primary_expenses_dist = calculate_monthly_primary_expenses_dist(emergency_cash_fund, monthly_primary_expenses)
 
-# 6. Halaman untuk Net Worth to Assets Ratio
-@app.route('/net_worth_to_assets_ratio/', methods=['GET', 'POST'])
-def net_worth_to_assets_ratio():
-    """
-    Halaman untuk menghitung Net Worth to Assets Ratio (NWAR).
+        # Format Emergency Fund Ratio to Local Currency
+        formatted_formecf = locale.currency(emergency_cash_fund, grouping=True)
+        formatted_formmpe = locale.currency(monthly_primary_expenses, grouping=True)
+        return render_template("efr.html", efr = efr, 
+                               emergency_cash_fund = formatted_formecf, 
+                               monthly_primary_expenses = formatted_formmpe,
+                               emergency_cash_fund_dist = emergency_cash_fund_dist,
+                               monthly_primary_expenses_dist = monthly_primary_expenses_dist
+                               )
+    return render_template("efr.html", efr = None)
+#--------------------------End Emergency Fund Ratio Page--------------------------
 
-    NWAR dihitung dengan membagi total net worth dengan total assets.
+#------------------------Beginning Basic Housing Ratio Page------------------------
+# Basic Housing Ratio Formula
+"""
+BHR = (housing costs / gross income) * 100
+"""
+def calculate_bhr(housing_costs, gross_income):
+    try:
+        bhr = (housing_costs / gross_income) * 100
+        return round(bhr, 2)
+    except ZeroDivisionError:
+        return "Gross Income amount cannot be zero."
+    
+# Basic Housing Ratio %Distribution
+# Housing Costs Distribution
+def calculate_housing_costs_dist(housing_costs, gross_income):
+    try:
+        housing_costs_dist = (housing_costs / (housing_costs + gross_income)) * 100
+        return round(housing_costs_dist, 2)
+    except ZeroDivisionError:
+        return "Housing Costs amount cannot be zero."
 
-    :param float net_worth: Total net worth
-    :param float total_assets: Total assets
-    :return: Hasil NWAR, total net worth, dan total assets
-    """
-    if request.method == 'POST':
-        net_worth = float(request.form['net_worth'])
-        total_assets = float(request.form['total_assets'])
-        nwar = calculate_nwar(net_worth, total_assets)
-        return render_template('net_worth_to_assets_ratio.html', nwar=nwar, net_worth=net_worth, total_assets=total_assets)
-    return render_template('net_worth_to_assets_ratio.html')
+# Gross Income Distribution
+def calculate_gross_income_dist(housing_costs, gross_income):
+    try:
+        gross_income_dist = (gross_income / (housing_costs + gross_income)) * 100
+        return round(gross_income_dist, 2)
+    except ZeroDivisionError:
+        return "Gross Income amount cannot be zero."
 
-# 7. Halaman untuk Debt to Assets Ratio
-@app.route('/debt_to_assets_ratio/', methods=['GET', 'POST'])
-def debt_to_assets_ratio():
-    """
-    Halaman untuk menghitung Debt to Assets Ratio (DAR).
+# Basic Housing Ratio Route HTML
+@app.route("/bhr/", methods = ["GET", "POST"])
+def bhr():
+    if request.method == "POST":
+        housing_costs = float(request.form["housing_costs"])
+        gross_income = float(request.form["gross_income"])
+        bhr = calculate_bhr(housing_costs, gross_income)
 
-    DAR dihitung dengan membagi total utang dengan total assets.
+        # Basic Housing Ratio %Distribution
+        housing_costs_dist = calculate_housing_costs_dist(housing_costs, gross_income)
+        gross_income_dist = calculate_gross_income_dist(housing_costs, gross_income)
 
-    :param float total_debt: Total utang
-    :param float total_assets: Total assets
-    :return: Hasil DAR, total utang, dan total assets
-    """
-    if request.method == 'POST':
-        total_debt = float(request.form['total_debt'])
-        total_assets = float(request.form['total_assets'])
+        # Format Basic Housing Ratio to Local Currency
+        formatted_formhc = locale.currency(housing_costs, grouping=True)
+        formatted_formgi = locale.currency(gross_income, grouping=True)
+        return render_template("bhr.html", bhr = bhr, 
+                               housing_costs = formatted_formhc, 
+                               gross_income = formatted_formgi,
+                               housing_costs_dist = housing_costs_dist,
+                               gross_income_dist = gross_income_dist
+                               )
+    return render_template("bhr.html", bhr = None)
+#--------------------------End Basic Housing Ratio Page--------------------------
+
+#------------------------Beginning Broad Housing and Other Debts Ratio Page------------------------
+# Broad Housing and Other Debts Ratio Formula
+"""
+BHODR = (housing costs + other debt payments) / gross income) * 100
+"""
+def calculate_bhodr(housing_costs, other_debt_payments, gross_income):
+    try:
+        bhodr = (housing_costs + other_debt_payments) / gross_income) * 100
+        return round(bhodr, 2)
+    except ZeroDivisionError:
+        return "Gross Income amount cannot be zero."
+
+# Broad Housing and Other Debts Ratio %Distribution
+# Housing Costs Distribution
+def calculate_housing_costs_dist(housing_costs, other_debt_payments, gross_income):
+    try:
+        housing_costs_dist = (housing_costs / (housing_costs + other_debt_payments + gross_income)) * 100
+        return round(housing_costs_dist, 2)
+    except ZeroDivisionError:
+        return "Housing Costs amount cannot be zero."
+
+# Other Debt Payments Distribution
+def calculate_other_debt_payments_dist(housing_costs, other_debt_payments, gross_income):
+    try:
+        other_debt_payments_dist = (other_debt_payments / (housing_costs + other_debt_payments + gross_income)) * 100
+        return round(other_debt_payments_dist, 2)
+    except ZeroDivisionError:
+        return "Other Debt Payments amount cannot be zero."
+
+# Gross Income Distribution
+def calculate_gross_income_dist(housing_costs, other_debt_payments, gross_income):
+    try:
+        gross_income_dist = (gross_income / (housing_costs + other_debt_payments + gross_income)) * 100
+        return round(gross_income_dist, 2)
+    except ZeroDivisionError:
+        return "Gross Income amount cannot be zero."
+
+# Broad Housing and Other Debts Ratio Route HTML
+@app.route("/bhodr/", methods = ["GET", "POST"])
+def bhodr():
+    if request.method == "POST":
+        housing_costs = float(request.form["housing_costs"])
+        other_debt_payments = float(request.form["other_debt_payments"])
+        gross_income = float(request.form["gross_income"])
+        bhodr = calculate_bhodr(housing_costs, other_debt_payments, gross_income)
+
+        # Broad Housing and Other Debts Ratio %Distribution
+        housing_costs_dist = calculate_housing_costs_dist(housing_costs, other_debt_payments, gross_income)
+        other_debt_payments_dist = calculate_other_debt_payments_dist(housing_costs, other_debt_payments, gross_income)
+        gross_income_dist = calculate_gross_income_dist(housing_costs, other_debt_payments, gross_income)
+
+        # Format Broad Housing and Other Debts Ratio to Local Currency
+        formatted_formhc = locale.currency(housing_costs, grouping=True)
+        formatted_formodp = locale.currency(other_debt_payments, grouping=True)
+        formatted_formgi = locale.currency(gross_income, grouping=True)
+        return render_template("bhodr.html", bhodr = bhodr, 
+                               housing_costs = formatted_formhc, 
+                               other_debt_payments = formatted_formodp,
+                               gross_income = formatted_formgi,
+                               housing_costs_dist = housing_costs_dist,
+                               other_debt_payments_dist = other_debt_payments_dist,
+                               gross_income_dist = gross_income_dist
+                               )
+    return render_template("bhodr.html", bhodr = None)
+#--------------------------End Broad Housing and Other Debts Ratio Page------------------------
+
+#------------------------Beginning Debt to Assets Ratio Page------------------------
+# Debt to Assets Ratio Formula
+"""
+DAR = (total debt / total assets) * 100
+"""
+def calculate_dar(total_debt, total_assets):
+    try:
+        dar = (total_debt / total_assets) * 100
+        return round(dar, 2)
+    except ZeroDivisionError:
+        return "Total Assets amount cannot be zero."
+
+# Debt to Assets Ratio %Distribution
+# Total Debt Distribution
+def calculate_total_debt_dist(total_debt, total_assets):
+    try:
+        total_debt_dist = (total_debt / (total_debt + total_assets)) * 100
+        return round(total_debt_dist, 2)
+    except ZeroDivisionError:
+        return "Total Debt amount cannot be zero."
+
+# Total Assets Distribution
+def calculate_total_assets_dist(total_debt, total_assets):
+    try:
+        total_assets_dist = (total_assets / (total_debt + total_assets)) * 100
+        return round(total_assets_dist, 2)
+    except ZeroDivisionError:
+        return "Total Assets amount cannot be zero."
+
+# Debt to Assets Ratio Route HTML
+@app.route("/dar/", methods = ["GET", "POST"])
+def dar():
+    if request.method == "POST":
+        total_debt = float(request.form["total_debt"])
+        total_assets = float(request.form["total_assets"])
         dar = calculate_dar(total_debt, total_assets)
-        return render_template('debt_to_assets_ratio.html', dar=dar, total_debt=total_debt, total_assets=total_assets)
-    return render_template('debt_to_assets_ratio.html')
 
-# 8. Halaman untuk Investment Assets to Total Assets Ratio
-@app.route('/iatar/', methods=['GET', 'POST'])
-def iatar():
-    """
-    Halaman untuk menghitung Investment Assets to Total Assets Ratio (IATAR).
+        # Debt to Assets Ratio %Distribution
+        total_debt_dist = calculate_total_debt_dist(total_debt, total_assets)
+        total_assets_dist = calculate_total_assets_dist(total_debt, total_assets)
 
-    IATAR dihitung dengan membagi total investment assets dengan total assets.
+        # Format Debt to Assets Ratio to Local Currency
+        formatted_formtd = locale.currency(total_debt, grouping=True)
+        formatted_formta = locale.currency(total_assets, grouping=True)
+        return render_template("dar.html", dar = dar, 
+                               total_debt = formatted_formtd, 
+                               total_assets = formatted_formta,
+                               total_debt_dist = total_debt_dist,
+                               total_assets_dist = total_assets_dist
+                               )
+    return render_template("dar.html", dar = None)
+#--------------------------End Debt to Assets Ratio Page------------------------
 
-    :param float investment_assets: Total investment assets
-    :param float total_assets: Total assets
-    :return: Hasil IATAR, total investment assets, dan total assets
-    """
-    if request.method == 'POST':
-        investment_assets = float(request.form['investment_assets'])
-        total_assets = float(request.form['total_assets'])
-        iatar = calculate_iatar(investment_assets, total_assets)
-        return render_template('iatar.html', iatar=iatar, investment_assets=investment_assets, total_assets=total_assets)
-    return render_template('iatar.html')
+#------------------------Beginning Net Worth to Assets Ratio Page------------------------
+# Net Worth to Assets Ratio Formula
+"""
+NWAR = ((total assets - liabilities) / total assets) * 100
+"""
+def calculate_nwar(total_assets, liabilities):
+    try:
+        nwar = ((total_assets - liabilities) / total_assets) * 100
+        return round(nwar, 2)
+    except ZeroDivisionError:
+        return "Total Assets amount cannot be zero."
 
+# Net Worth to Assets Ratio %Distribution
+# Total Assets Distribution
+def calculate_total_assets_dist(total_assets, liabilities):
+    try:
+        total_assets_dist = (total_assets / (total_assets + liabilities)) * 100
+        return round(total_assets_dist, 2)
+    except ZeroDivisionError:
+        return "Total Assets amount cannot be zero."
 
+# Liabilities Distribution
+def calculate_liabilities_dist(total_assets, liabilities):
+    try:
+        liabilities_dist = (liabilities / (total_assets + liabilities)) * 100
+        return round(liabilities_dist, 2)
+    except ZeroDivisionError:
+        return "Liabilities amount cannot be zero."
+    
+# Net Worth to Assets Ratio Route HTML
+@app.route("/nwar/", methods = ["GET", "POST"])
+def nwar():
+    if request.method == "POST":
+        total_assets = float(request.form["total_assets"])
+        liabilities = float(request.form["liabilities"])
+        nwar = calculate_nwar(total_assets, liabilities)
+
+        # Net Worth to Assets Ratio %Distribution
+        total_assets_dist = calculate_total_assets_dist(total_assets, liabilities)
+        liabilities_dist = calculate_liabilities_dist(total_assets, liabilities)
+
+        # Format Net Worth to Assets Ratio to Local Currency
+        formatted_formta = locale.currency(total_assets, grouping=True)
+        formatted_formli = locale.currency(liabilities, grouping=True)
+        return render_template("nwar.html", nwar = nwar, 
+                               total_assets = formatted_formta, 
+                               liabilities = formatted_formli,
+                               total_assets_dist = total_assets_dist,
+                               liabilities_dist = liabilities_dist
+                               )
+    return render_template("nwar.html", nwar = None)
+#--------------------------End Net Worth to Assets Ratio Page------------------------
+
+#------------------------Beginning Return on Investments Ratio Page------------------------
+# Return on Investments Ratio Formula
+"""
+ROI = ((ending investments - beginning investments) / beginning investments) * 100
+"""
+def calculate_roi(ending_investments, beginning_investments):
+    try:
+        roi = ((ending_investments - beginning_investments) / beginning_investments) * 100
+        return round(roi, 2)
+    except ZeroDivisionError:
+        return "Beginning Investments amount cannot be zero."
+
+# Return on Investments Ratio %Distribution
+# Ending Investments Distribution
+def calculate_ending_investments_dist(ending_investments, beginning_investments):
+    try:
+        ending_investments_dist = (ending_investments / (ending_investments + beginning_investments)) * 100
+        return round(ending_investments_dist, 2)
+    except ZeroDivisionError:
+        return "Ending Investments amount cannot be zero."
+    
+# Beginning Investments Distribution
+def calculate_beginning_investments_dist(ending_investments, beginning_investments):
+    try:
+        beginning_investments_dist = (beginning_investments / (ending_investments + beginning_investments)) * 100
+        return round(beginning_investments_dist, 2)
+    except ZeroDivisionError:
+        return "Beginning Investments amount cannot be zero."
+    
+# Return on Investments Ratio Route HTML
+@app.route("/roi/", methods = ["GET", "POST"])
+def roi():
+    if request.method == "POST":
+        ending_investments = float(request.form["ending_investments"])
+        beginning_investments = float(request.form["beginning_investments"])
+        roi = calculate_roi(ending_investments, beginning_investments)
+
+        # Return on Investments Ratio %Distribution
+        ending_investments_dist = calculate_ending_investments_dist(ending_investments, beginning_investments)
+        beginning_investments_dist = calculate_beginning_investments_dist(ending_investments, beginning_investments)
+
+        # Format Return on Investments Ratio to Local Currency
+        formatted_formei = locale.currency(ending_investments, grouping=True)
+        formatted_formbi = locale.currency(beginning_investments, grouping=True)
+        return render_template("roi.html", roi = roi, 
+                               ending_investments = formatted_formei, 
+                               beginning_investments = formatted_formbi,
+                               ending_investments_dist = ending_investments_dist,
+                               beginning_investments_dist = beginning_investments_dist
+                               )
+    return render_template("roi.html", roi = None)
+#--------------------------End Return on Investments Ratio Page------------------------
+
+#------------------------Beginning Investment Assets to Gross Pay Ratio Page------------------------
+# Investment Assets to Gross Pay Ratio Formula
+"""
+IAGPR = ((investment assets + cash) / annual gross income) * 100
+"""
+def calculate_iagpr(investment_assets, cash, annual_gross_income):
+    try:
+        iagpr = ((investment_assets + cash) / annual_gross_income) * 100
+        return round(iagpr, 2)
+    except ZeroDivisionError:
+        return "Annual Gross Income amount cannot be zero."
+    
+# Investment Assets to Gross Pay Ratio %Distribution
+# Investment Assets Distribution
+def calculate_investment_assets_dist(investment_assets, cash, annual_gross_income):
+    try:
+        investment_assets_dist = (investment_assets / (investment_assets + cash + annual_gross_income)) * 100
+        return round(investment_assets_dist, 2)
+    except ZeroDivisionError:
+        return "Investment Assets amount cannot be zero."
+
+# Cash Distribution
+def calculate_cash_dist(investment_assets, cash, annual_gross_income):
+    try:
+        cash_dist = (cash / (investment_assets + cash + annual_gross_income)) * 100
+        return round(cash_dist, 2)
+    except ZeroDivisionError:
+        return "Cash amount cannot be zero."
+
+# Annual Gross Income Distribution
+def calculate_annual_gross_income_dist(investment_assets, cash, annual_gross_income):
+    try:
+        annual_gross_income_dist = (annual_gross_income / (investment_assets + cash + annual_gross_income)) * 100
+        return round(annual_gross_income_dist, 2)
+    except ZeroDivisionError:
+        return "Annual Gross Income amount cannot be zero."
+      
+# Investment Assets to Gross Pay Ratio Route HTML
+@app.route("/iagpr/", methods = ["GET", "POST"])
+def iagpr():
+    if request.method == "POST":
+        investment_assets = float(request.form["investment_assets"])
+        cash = float(request.form["cash"])
+        annual_gross_income = float(request.form["annual_gross_income"])
+        iagpr = calculate_iagpr(investment_assets, cash, annual_gross_income)
+
+        # Investment Assets to Gross Pay Ratio %Distribution
+        investment_assets_dist = calculate_investment_assets_dist(investment_assets, cash, annual_gross_income)
+        cash_dist = calculate_cash_dist(investment_assets, cash, annual_gross_income)
+        annual_gross_income_dist = calculate_annual_gross_income_dist(investment_assets, cash, annual_gross_income)
+
+        # Format IAGPR to Local Currency
+        formatted_formia = locale.currency(investment_assets, grouping=True)
+        formatted_formc = locale.currency(cash, grouping=True)
+        formatted_formagi = locale.currency(annual_gross_income, grouping=True)
+        return render_template("iagpr.html", iagpr = iagpr, 
+                               investment_assets = formatted_formia, 
+                               cash = formatted_formc, 
+                               annual_gross_income = formatted_formagi,
+                               investment_assets_dist = investment_assets_dist,
+                               cash_dist = cash_dist,
+                               annual_gross_income_dist = annual_gross_income_dist
+                               )
+    return render_template("iagpr.html", iagpr = None)
+#--------------------------End Investment Assets to Gross Pay Ratio Page------------------------
+
+# Run the Flask application
 if __name__ == '__main__':
     app.run(debug=True)
