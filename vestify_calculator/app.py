@@ -33,10 +33,16 @@ Content:
 """
 
 #------------------------Beginning Index Page------------------------
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 #-------------------------End Index Page--------------------------
+
+#------------------------Beginning Features Page------------------------
+@app.route("/features/", methods=["GET", "POST"])
+def features():
+    return render_template("features.html")
+#-------------------------End Features Page--------------------------
 
 #------------------------Beginning Savings Rate Page------------------------
 # Savings Rate Formula
