@@ -1,10 +1,10 @@
 // EFR Pie & Bar Charts Data
-const EFREmergencyCashFundPie = document
-  .getElementById("emergency-cash-fund-pie")
+const EFREmergencyCashFundDist = document
+  .getElementById("emergency_cash_fund_dist")
   .getAttribute("data-value");
 
-const EFRMonthlyPrimaryExpensesPie = document
-  .getElementById("monthly-primary-expenses-pie")
+const EFRMonthlyPrimaryExpensesDist = document
+  .getElementById("monthly_primary_expenses_dist")
   .getAttribute("data-value");
 
 const EFRResult = document
@@ -22,7 +22,7 @@ const efrpiechart = new Chart(efrpie, {
     labels: ["%Emergency Cash Fund", "%Monthly Primary Expenses"],
     datasets: [
       {
-        data: [EFREmergencyCashFundPie, EFRMonthlyPrimaryExpensesPie],
+        data: [EFREmergencyCashFundDist, EFRMonthlyPrimaryExpensesDist],
         backgroundColor: ["#007bff", "#dc3545"],
       },
     ],

@@ -20,63 +20,57 @@
   </head>
   <body>
     <div class="d-flex">
-      <!-- Tombol Hamburger -->
+      <!-- Hamburger Button -->
       <button class="navbar-toggler" type="button" id="toggleNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- Navbar Vertikal -->
+      <!-- Vertical Navbar -->
       <nav
         id="sidebar"
         class="nav flex-column bg-light p-3"
         style="width: 200px; display: none"
       >
         <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
-        <a class="nav-link active" href="{{ url_for('roi') }}"
-          >Return on Investment (ROI)</a
-        >
+        <a class="nav-link active" href="{{ url_for('features') }}">Features</a>
         <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
-        <a class="nav-link" href="{{ url_for('dti') }}"
-          >Debt to Income Ratio (DTI)</a
-        >
         <a class="nav-link" href="{{ url_for('efr') }}"
           >Emergency Fund Ratio (EFR)</a
-        >
-        <a class="nav-link" href="{{ url_for('lr') }}">Liquidity Ratio (LR)</a>
-        <a class="nav-link" href="{{ url_for('nwar') }}"
-          >Net Worth to Assets Ratio (NWAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dar') }}"
-          >Debt to Assets Ratio (DAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('iatar') }}"
-          >Investment Assets to Total Assets Ratio (IATAR)</a
         >
         <a class="nav-link" href="{{ url_for('bhr') }}"
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Basic Housing to Operating Debt Ratio (BHODR)</a
+          >Broad Housing and Other Debts Ratio (BHODR)</a
+        >
+        <a class="nav-link" href="{{ url_for('dar') }}"
+          >Debt to Assets Ratio (DAR)</a
+        >
+        <a class="nav-link" href="{{ url_for('nwar') }}"
+          >Net Worth to Assets Ratio (NWAR)</a
+        >
+        <a class="nav-link active" href="{{ url_for('roi') }}"
+          >Return on Investment (ROI)</a
         >
         <a class="nav-link" href="{{ url_for('iagpr') }}"
           >Investment Assets to Gross Pay Ratio (IAGPR)</a
         >
       </nav>
 
-      <!-- Konten Utama untuk Savings Ratio -->
+      <!-- Savings Ratio Content and Form -->
       <div class="container-fluid">
         <h1 class="mt-5">Savings Rate (SR)</h1>
         <form method="POST">
           <div class="mb-3">
             <label for="total_annual_savings" class="form-label"
-              >Total Annual Savings:</label
+              >Annual Savings:</label
             >
             <input
               type="text"
               step="any"
               class="form-control"
-              id="total_annual_savings"
-              name="total_annual_savings"
+              id="annual_savings"
+              name="annual_savings"
               data-output-id="currency-output1"
               placeholder="Enter Amount"
               required
@@ -125,23 +119,20 @@
           <div id="sr-pie-chart-container">
             <canvas id="sr-pie-chart"></canvas>
           </div>
-          <p>Total Annual Savings: {{ total_annual_savings }}</p>
-          <p
-            id="total-annual-savings-pie"
-            data-value="{{ total_annual_savings_pie }}"
-          >
-            %Total Annual Savings: {{ total_annual_savings_pie }}
+          <p>Annual Savings: {{ annual_savings }}</p>
+          <p id="annual_savings_dist" data-value="{{ annual_savings_dist }}">
+            %Annual Savings: {{ annual_savings_dist }}
           </p>
           <p>Employer Match: {{ employer_match }}</p>
-          <p id="employer-match-pie" data-value="{{ employer_match_pie }}">
-            %Employer Match: {{ employer_match_pie }}
+          <p id="employer_match_dist" data-value="{{ employer_match_dist }}">
+            %Employer Match: {{ employer_match_dist }}
           </p>
           <p>Annual Gross Income: {{ annual_gross_income }}</p>
           <p
-            id="annual-gross-income-pie"
-            data-value="{{ annual_gross_income_pie }}"
+            id="annual_gross_income_dist"
+            data-value="{{ annual_gross_income_dist }}"
           >
-            %Annual Gross Income: {{ annual_gross_income_pie }}
+            %Annual Gross Income: {{ annual_gross_income_dist }}
           </p>
           <h3 id="sr-result-title">Savings Rate Result</h3>
           <h3 id="sr-result" data-value="{{ sr }}">

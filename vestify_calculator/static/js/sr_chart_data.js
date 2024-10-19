@@ -1,14 +1,14 @@
 // SR Pie & Bar Charts Data
-const SRTotalAnnualSavingsPie = document
-  .getElementById("total-annual-savings-pie")
+const SRAnnualSavingsDist = document
+  .getElementById("annual_savings_dist")
   .getAttribute("data-value");
 
-const SREmployerMatchPie = document
-  .getElementById("employer-match-pie")
+const SREmployerMatchDist = document
+  .getElementById("employer_match_dist")
   .getAttribute("data-value");
 
-const SRAnnualGrossIncomePie = document
-  .getElementById("annual-gross-income-pie")
+const SRAnnualGrossIncomeDist = document
+  .getElementById("annual_gross_income_dist")
   .getAttribute("data-value");
 
 const SRResult = document
@@ -17,9 +17,9 @@ const SRResult = document
 
 console.log(
   SRResult,
-  SRTotalAnnualSavingsPie,
-  SREmployerMatchPie,
-  SRAnnualGrossIncomePie
+  SRAnnualSavingsDist,
+  SREmployerMatchDist,
+  SRAnnualGrossIncomeDist
 );
 
 const SRpiechartcontainer = document.getElementById("sr-pie-chart-container");
@@ -38,9 +38,9 @@ const srpiechart = new Chart(srpie, {
     datasets: [
       {
         data: [
-          SRTotalAnnualSavingsPie,
-          SREmployerMatchPie,
-          SRAnnualGrossIncomePie,
+          SRAnnualSavingsDist,
+          SREmployerMatchDist,
+          SRAnnualGrossIncomeDist,
         ],
         backgroundColor: ["#007bff", "#dc3545", "#ffc107"],
       },

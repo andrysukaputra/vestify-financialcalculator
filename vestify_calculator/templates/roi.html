@@ -32,31 +32,25 @@
         style="width: 200px; display: none"
       >
         <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
-        <a class="nav-link active" href="{{ url_for('roi') }}"
-          >Return on Investment (ROI)</a
-        >
+        <a class="nav-link active" href="{{ url_for('features') }}">Features</a>
         <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
-        <a class="nav-link" href="{{ url_for('dti') }}"
-          >Debt to Income Ratio (DTI)</a
-        >
         <a class="nav-link" href="{{ url_for('efr') }}"
           >Emergency Fund Ratio (EFR)</a
-        >
-        <a class="nav-link" href="{{ url_for('lr') }}">Liquidity Ratio (LR)</a>
-        <a class="nav-link" href="{{ url_for('nwar') }}"
-          >Net Worth to Assets Ratio (NWAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dar') }}"
-          >Debt to Assets Ratio (DAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('iatar') }}"
-          >Investment Assets to Total Assets Ratio (IATAR)</a
         >
         <a class="nav-link" href="{{ url_for('bhr') }}"
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
           >Broad Housing and Other Debts Ratio (BHODR)</a
+        >
+        <a class="nav-link" href="{{ url_for('dar') }}"
+          >Debt to Assets Ratio (DAR)</a
+        >
+        <a class="nav-link" href="{{ url_for('nwar') }}"
+          >Net Worth to Assets Ratio (NWAR)</a
+        >
+        <a class="nav-link active" href="{{ url_for('roi') }}"
+          >Return on Investment (ROI)</a
         >
         <a class="nav-link" href="{{ url_for('iagpr') }}"
           >Investment Assets to Gross Pay Ratio (IAGPR)</a
@@ -68,15 +62,15 @@
         <h1 class="mt-5">Return on Investment (ROI)</h1>
         <form method="POST">
           <div class="mb-3">
-            <label for="final_value_of_investment" class="form-label"
-              >Final Value of Investment:</label
+            <label for="ending_investments" class="form-label"
+              >Ending Investment:</label
             >
             <input
               type="text"
               step="any"
               class="form-control"
-              id="final_value_of_investment"
-              name="final_value_of_investment"
+              id="ending_investments"
+              name="ending_investments"
               data-output-id="currency-output1"
               placeholder="Enter Amount"
               required
@@ -84,36 +78,20 @@
             <p>Amount: <span id="currency-output1">0</span></p>
           </div>
           <div class="mb-3">
-            <label for="initial_value_of_investment" class="form-label"
-              >Initial Value of Investment:</label
+            <label for="beginning_investments" class="form-label"
+              >Beginning Investments:</label
             >
             <input
               type="text"
               step="any"
               class="form-control"
-              id="initial_value_of_investment"
-              name="initial_value_of_investment"
+              id="beginning_investments"
+              name="beginning_investments"
               data-output-id="currency-output2"
               placeholder="Enter Amount"
               required
             />
             <p>Amount: <span id="currency-output2">0</span></p>
-          </div>
-          <div class="mb-3">
-            <label for="cost_of_investment" class="form-label"
-              >Cost of Investment:</label
-            >
-            <input
-              type="text"
-              step="any"
-              class="form-control"
-              id="cost_of_investment"
-              name="cost_of_investment"
-              data-output-id="currency-output3"
-              placeholder="Enter Amount"
-              required
-            />
-            <p>Amount: <span id="currency-output3">0</span></p>
           </div>
           <button id="calculate-btn" type="submit" class="btn btn-primary">
             Calculate ROI
@@ -127,26 +105,19 @@
           <div id="roi-pie-chart-container">
             <canvas id="roi-pie-chart"></canvas>
           </div>
-          <p>Final Value of Investment: {{ final_value_of_investment }}</p>
+          <p>Ending Investments: {{ ending_investments }}</p>
           <p
-            id="final-value-of-investment-pie"
-            data-value="{{ final_value_of_investment_pie }}"
+            id="ending_investments_dist"
+            data-value="{{ ending_investments_dist }}"
           >
-            %Final Value: {{ final_value_of_investment_pie }}
+            %Final Value: {{ ending_investments_dist }}
           </p>
-          <p>Initial Value of Investment: {{ initial_value_of_investment }}</p>
+          <p>Beginning Investments: {{ beginning_investments }}</p>
           <p
-            id="initial-value-of-investment-pie"
-            data-value="{{ initial_value_of_investment_pie }}"
+            id="beginning_investments_dist"
+            data-value="{{ beginning_investments_dist }}"
           >
-            %Initial Value: {{ initial_value_of_investment_pie }}
-          </p>
-          <p>Cost of Investment: {{ cost_of_investment }}</p>
-          <p
-            id="cost-of-investment-pie"
-            data-value="{{ cost_of_investment_pie }}"
-          >
-            %Cost Value: {{ cost_of_investment_pie }}
+            %Initial Value: {{ beginning_investments_dist }}
           </p>
           <h3 id="roi-result-title">ROI Result</h3>
           <h3 id="roi-result" data-value="{{ roi }}">Your ROI: {{ roi }}%</h3>

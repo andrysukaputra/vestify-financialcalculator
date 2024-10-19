@@ -1,14 +1,10 @@
 // ROI Pie & Bar Charts Data
-const ROIFinalValueOfInvestmentPie = document
-  .getElementById("final-value-of-investment-pie")
+const ROIEndingInvestmentsDist = document
+  .getElementById("ending_investments_dist")
   .getAttribute("data-value");
 
-const ROIInitialValueOfInvestmentPie = document
-  .getElementById("initial-value-of-investment-pie")
-  .getAttribute("data-value");
-
-const ROICostOfInvestmentPie = document
-  .getElementById("cost-of-investment-pie")
+const ROIBeginningInvestmentsDist = document
+  .getElementById("beginning_investments_dist")
   .getAttribute("data-value");
 
 const ROIResult = document
@@ -23,19 +19,11 @@ const roipie = document.getElementById("roi-pie-chart").getContext("2d");
 const roipiechart = new Chart(roipie, {
   type: "pie",
   data: {
-    labels: [
-      "%Final Value of Investment",
-      "%Initial Value of Investment",
-      "%Cost of Investment",
-    ],
+    labels: ["%Ending Investments", "%Beginning Investments"],
     datasets: [
       {
-        data: [
-          ROIFinalValueOfInvestmentPie,
-          ROIInitialValueOfInvestmentPie,
-          ROICostOfInvestmentPie,
-        ],
-        backgroundColor: ["#007bff", "#dc3545", "#ffc107"],
+        data: [ROIEndingInvestmentsDist, ROIBeginningInvestmentsDist],
+        backgroundColor: ["#007bff", "#dc3545"],
       },
     ],
   },

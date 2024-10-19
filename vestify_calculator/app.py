@@ -117,7 +117,7 @@ EFR = (emergency cash fund / monthly primary expenses) * 100
 """
 def calculate_efr(emergency_cash_fund, monthly_primary_expenses):
     try:
-        efr = (emergency_cash_fund / monthly_primary_expenses) * 100
+        efr = (emergency_cash_fund / monthly_primary_expenses)
         return round(efr, 2)
     except ZeroDivisionError:
         return "Monthly Primary Expenses amount cannot be zero."
@@ -221,35 +221,35 @@ def bhr():
 """
 BHODR = (housing costs + other debt payments) / gross income) * 100
 """
-def calculate_bhodr(housing_costs, other_debt_payments, gross_income):
+def calculate_bhodr(broad_housing_costs, broad_other_debt_payments, broad_gross_income):
     try:
-        bhodr = ((housing_costs + other_debt_payments) / gross_income) * 100
+        bhodr = ((broad_housing_costs + broad_other_debt_payments) / broad_gross_income) * 100
         return round(bhodr, 2)
     except ZeroDivisionError:
         return "Gross Income amount cannot be zero."
 
 # Broad Housing and Other Debts Ratio %Distribution
 # Housing Costs Distribution
-def calculate_housing_costs_dist(housing_costs, other_debt_payments, gross_income):
+def calculate_broad_housing_costs_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income):
     try:
-        housing_costs_dist = (housing_costs / (housing_costs + other_debt_payments + gross_income)) * 100
-        return round(housing_costs_dist, 2)
+        broad_housing_costs_dist = (broad_housing_costs / (broad_housing_costs + broad_other_debt_payments + broad_gross_income)) * 100
+        return round(broad_housing_costs_dist, 2)
     except ZeroDivisionError:
         return "Housing Costs amount cannot be zero."
 
 # Other Debt Payments Distribution
-def calculate_other_debt_payments_dist(housing_costs, other_debt_payments, gross_income):
+def calculate_broad_other_debt_payments_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income):
     try:
-        other_debt_payments_dist = (other_debt_payments / (housing_costs + other_debt_payments + gross_income)) * 100
-        return round(other_debt_payments_dist, 2)
+        broad_other_debt_payments_dist = (broad_other_debt_payments / (broad_housing_costs + broad_other_debt_payments + broad_gross_income)) * 100
+        return round(broad_other_debt_payments_dist, 2)
     except ZeroDivisionError:
         return "Other Debt Payments amount cannot be zero."
 
 # Gross Income Distribution
-def calculate_gross_income_dist(housing_costs, other_debt_payments, gross_income):
+def calculate_broad_gross_income_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income):
     try:
-        gross_income_dist = (gross_income / (housing_costs + other_debt_payments + gross_income)) * 100
-        return round(gross_income_dist, 2)
+        broad_gross_income_dist = (broad_gross_income / (broad_housing_costs + broad_other_debt_payments + broad_gross_income)) * 100
+        return round(broad_gross_income_dist, 2)
     except ZeroDivisionError:
         return "Gross Income amount cannot be zero."
 
@@ -257,27 +257,27 @@ def calculate_gross_income_dist(housing_costs, other_debt_payments, gross_income
 @app.route("/bhodr/", methods = ["GET", "POST"])
 def bhodr():
     if request.method == "POST":
-        housing_costs = float(request.form["housing_costs"])
-        other_debt_payments = float(request.form["other_debt_payments"])
-        gross_income = float(request.form["gross_income"])
-        bhodr = calculate_bhodr(housing_costs, other_debt_payments, gross_income)
+        broad_housing_costs = float(request.form["housing_costs"])
+        broad_other_debt_payments = float(request.form["other_debt_payments"])
+        broad_gross_income = float(request.form["gross_income"])
+        bhodr = calculate_bhodr(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
 
         # Broad Housing and Other Debts Ratio %Distribution
-        housing_costs_dist = calculate_housing_costs_dist(housing_costs, other_debt_payments, gross_income)
-        other_debt_payments_dist = calculate_other_debt_payments_dist(housing_costs, other_debt_payments, gross_income)
-        gross_income_dist = calculate_gross_income_dist(housing_costs, other_debt_payments, gross_income)
+        broad_housing_costs_dist = calculate_housing_costs_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
+        broad_other_debt_payments_dist = calculate_broad_other_debt_payments_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
+        broad_gross_income_dist = calculate_gross_income_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
 
         # Format Broad Housing and Other Debts Ratio to Local Currency
-        formatted_formhc = locale.currency(housing_costs, grouping=True)
-        formatted_formodp = locale.currency(other_debt_payments, grouping=True)
-        formatted_formgi = locale.currency(gross_income, grouping=True)
+        formatted_formhc = locale.currency(broad_housing_costs, grouping=True)
+        formatted_formodp = locale.currency(broad_other_debt_payments, grouping=True)
+        formatted_formgi = locale.currency(broad_gross_income, grouping=True)
         return render_template("bhodr.html", bhodr = bhodr, 
                                housing_costs = formatted_formhc, 
                                other_debt_payments = formatted_formodp,
                                gross_income = formatted_formgi,
-                               housing_costs_dist = housing_costs_dist,
-                               other_debt_payments_dist = other_debt_payments_dist,
-                               gross_income_dist = gross_income_dist
+                               housing_costs_dist = broad_housing_costs_dist,
+                               other_debt_payments_dist = broad_other_debt_payments_dist,
+                               gross_income_dist = broad_gross_income_dist
                                )
     return render_template("bhodr.html", bhodr = None)
 #--------------------------End Broad Housing and Other Debts Ratio Page------------------------
