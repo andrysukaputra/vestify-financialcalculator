@@ -17,7 +17,7 @@ Content:
 3. Savings Rate (SR)
 ---> SR = ((annual savings + employer match) / annual gross income) * 100
 4. Emergency Fund Ratio (EFR)
----> EFR = (emergency cash fund / monthly primary expenses) * 100
+---> EFR = (emergency cash fund / monthly primary expenses)
 5. Basic Housing Ratio (BHR)
 ---> BHR = (housing costs / gross income) * 100
 6. Broad Housing and Other Debts Ratio (BHODR)
@@ -321,7 +321,7 @@ def dar():
 
         # Debt to Assets Ratio %Distribution
         total_debt_dist = calculate_total_debt_dist(total_debt, total_assets)
-        total_assets_dist = calculate_total_assets_dist(total_debt, total_assets)
+        total_assets_dist = calculate_total_assets_dist(total_assets, total_debt) # Mystery
 
         # Format Debt to Assets Ratio to Local Currency
         formatted_formtd = locale.currency(total_debt, grouping=True)
