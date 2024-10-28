@@ -257,27 +257,27 @@ def calculate_broad_gross_income_dist(broad_housing_costs, broad_other_debt_paym
 @app.route("/bhodr/", methods = ["GET", "POST"])
 def bhodr():
     if request.method == "POST":
-        broad_housing_costs = float(request.form["housing_costs"])
-        broad_other_debt_payments = float(request.form["other_debt_payments"])
-        broad_gross_income = float(request.form["gross_income"])
+        broad_housing_costs = float(request.form["broad_housing_costs"])
+        broad_other_debt_payments = float(request.form["broad_other_debt_payments"])
+        broad_gross_income = float(request.form["broad_gross_income"])
         bhodr = calculate_bhodr(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
 
         # Broad Housing and Other Debts Ratio %Distribution
-        broad_housing_costs_dist = calculate_housing_costs_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
+        broad_housing_costs_dist = calculate_broad_housing_costs_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
         broad_other_debt_payments_dist = calculate_broad_other_debt_payments_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
-        broad_gross_income_dist = calculate_gross_income_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
+        broad_gross_income_dist = calculate_broad_gross_income_dist(broad_housing_costs, broad_other_debt_payments, broad_gross_income)
 
         # Format Broad Housing and Other Debts Ratio to Local Currency
-        formatted_formhc = locale.currency(broad_housing_costs, grouping=True)
-        formatted_formodp = locale.currency(broad_other_debt_payments, grouping=True)
-        formatted_formgi = locale.currency(broad_gross_income, grouping=True)
+        formatted_formbhc = locale.currency(broad_housing_costs, grouping=True)
+        formatted_formbodp = locale.currency(broad_other_debt_payments, grouping=True)
+        formatted_formbgi = locale.currency(broad_gross_income, grouping=True)
         return render_template("bhodr.html", bhodr = bhodr, 
-                               housing_costs = formatted_formhc, 
-                               other_debt_payments = formatted_formodp,
-                               gross_income = formatted_formgi,
-                               housing_costs_dist = broad_housing_costs_dist,
-                               other_debt_payments_dist = broad_other_debt_payments_dist,
-                               gross_income_dist = broad_gross_income_dist
+                               broad_housing_costs = formatted_formbhc, 
+                               broad_other_debt_payments = formatted_formbodp,
+                               broad_gross_income = formatted_formbgi,
+                               broad_housing_costs_dist = broad_housing_costs_dist,
+                               broad_other_debt_payments_dist = broad_other_debt_payments_dist,
+                               broad_gross_income_dist = broad_gross_income_dist
                                )
     return render_template("bhodr.html", bhodr = None)
 #--------------------------End Broad Housing and Other Debts Ratio Page------------------------
