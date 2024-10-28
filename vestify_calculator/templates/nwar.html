@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Net Worth to Assets Ratio</title>
+    <title>Net Worth to Assets Ratio (NWAR)</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/navbar.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="d-flex">
@@ -24,95 +25,105 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- Navbar Vertikal -->
+      <!-- Vertical Navbar -->
       <nav
         id="sidebar"
         class="nav flex-column bg-light p-3"
         style="width: 200px; display: none"
       >
         <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
-        <a class="nav-link active" href="{{ url_for('roi') }}"
-          >Return on Investment (ROI)</a
-        >
-        <a class="nav-link" href="{{ url_for('savings_rate') }}"
-          >Savings Rate (SR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dti_ratio') }}"
-          >Debt to Income Ratio (DTI)</a
-        >
-        <a class="nav-link" href="{{ url_for('emergency_fund_ratio') }}"
+        <a class="nav-link active" href="{{ url_for('features') }}">Features</a>
+        <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
+        <a class="nav-link" href="{{ url_for('efr') }}"
           >Emergency Fund Ratio (EFR)</a
-        >
-        <a class="nav-link" href="{{ url_for('liquidity_ratio') }}"
-          >Liquidity Ratio (LR)</a
-        >
-        <a class="nav-link" href="{{ url_for('net_worth_to_assets_ratio') }}"
-          >Net Worth to Assets Ratio (NWAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('debt_to_assets_ratio') }}"
-          >Debt to Assets Ratio (DAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('iatar') }}"
-          >Investment Assets to Total Assets Ratio (IATAR)</a
         >
         <a class="nav-link" href="{{ url_for('bhr') }}"
           >Basic Housing Ratio (BHR)</a
         >
         <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Basic Housing and Other Debts Ratio (BHODR)</a
+          >Broad Housing and Other Debts Ratio (BHODR)</a
+        >
+        <a class="nav-link" href="{{ url_for('dar') }}"
+          >Debt to Assets Ratio (DAR)</a
+        >
+        <a class="nav-link" href="{{ url_for('nwar') }}"
+          >Net Worth to Assets Ratio (NWAR)</a
+        >
+        <a class="nav-link active" href="{{ url_for('roi') }}"
+          >Return on Investment (ROI)</a
         >
         <a class="nav-link" href="{{ url_for('iagpr') }}"
           >Investment Assets to Gross Pay Ratio (IAGPR)</a
         >
       </nav>
 
-      <!-- Konten Utama untuk Savings Ratio -->
+      <!-- Net Worth to Assets Ratio Content and Form -->
       <div class="container-fluid">
         <h1 class="mt-5">Net Worth to Assets Ratio (NWAR)</h1>
-        <p>Halaman ini berisi kalkulator investasi lainnya.</p>
-
-        <!-- Tambahkan form atau konten lain untuk kalkulator -->
         <form method="POST">
           <div class="mb-3">
-            <label for="net_worth" class="form-label"
-              >Jumlah Nilai Bersih (IDR):</label
-            >
+            <label for="total_assets" class="form-label">Total Assets:</label>
             <input
-              type="number"
-              step="any"
-              class="form-control"
-              id="net_worth"
-              name="net_worth"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="total_assets" class="form-label"
-              >Total Aset (IDR):</label
-            >
-            <input
-              type="number"
+              type="text"
               step="any"
               class="form-control"
               id="total_assets"
               name="total_assets"
+              data-output-id="currency-output1"
+              placeholder="Enter Amount"
               required
             />
+            <p>Amount: <span id="currency-output1">0</span></p>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Hitung Net Worth to Assets Ratio (NWAR)
+          <div class="mb-3">
+            <label for="liabilities" class="form-label">Liabilities:</label>
+            <input
+              type="text"
+              step="any"
+              class="form-control"
+              id="liabilities"
+              name="liabilities"
+              data-output-id="currency-output2"
+              placeholder="Enter Amount"
+              required
+            />
+            <p>Amount: <span id="currency-output2">0</span></p>
+          </div>
+          <button id="calculate-btn" type="submit" class="btn btn-primary">
+            Calculate NWAR
           </button>
         </form>
-        {% if net_worth_to_assets_ratio is not none %}
+        {% if nwar is not none %}
         <div class="mt-4">
-          <h3>Hasil Net Worth to Assets Ratio (NWAR): {{ nwar }}%</h3>
-          <p>Jumlah Nilai Bersih: IDR {{ net_worth }}</p>
-          <p>Total Aset: IDR {{ total_assets }}</p>
+          <h3 id="nwar-distribution-title">
+            Net Worth to Assets Ratio Distribution">
+          </h3>
+          <div id="nwar-pie-chart-container">
+            <canvas id="nwar-pie-chart"></canvas>
+          </div>
+          <p>Total Assets: {{ total_assets }}</p>
+          <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
+            %Total Assets: {{ total_assets_dist }}
+          </p>
+          <p>Liabilities: {{ liabilities }}</p>
+          <p id="liabilities_dist" data-value="{{ liabilities_dist }}">
+            %Total Liabilities: {{ liabilities_dist }}
+          </p>
+          <h3 id="nwar-result-title">Net Worth to Assets Ratio Result</h3>
+          <h3 id="nwar-result" data-value="{{ nwar }}">
+            Your Net Worth to Assets Ratio: {{ nwar }}%
+          </h3>
+          <div id="nwar-bar-chart-container">
+            <canvas id="nwar-bar-chart"></canvas>
+          </div>
+          <p id="nwar-result-description">bla bla bla bla bla bla bla ...</p>
         </div>
         {% endif %}
       </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/nwar_chart_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
