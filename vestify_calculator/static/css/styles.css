@@ -1,15 +1,26 @@
 body,
 html {
-  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
 }
 
+.navbar-brand {
+  margin-right: 20px;
+}
+
+.navbar-nav .navbar-link {
+  padding-left: 20px;
+}
+
 .container-fluid {
-  margin-top: 50px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   background: #ffffff;
-  padding: 20px;
+  padding: 0 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -46,13 +57,25 @@ p {
   margin-top: 1.5rem;
 }
 
-#roi-pie-chart-container,
-#sr-pie-chart-container {
-  display: none;
-}
-
-#final-value-of-investment-pie,
-#initial-value-of-investment-pie,
-#cost-of-investment-pie {
-  display: none;
+#sr-pie-chart,
+#sr-bar-chart,
+#efr-pie-chart,
+#efr-bar-chart,
+#bhr-pie-chart,
+#bhr-bar-chart,
+#bhodr-pie-chart,
+#bhodr-bar-chart,
+#dar-pie-chart,
+#dar-bar-chart,
+#nwar-pie-chart,
+#nwar-bar-chart,
+#roi-pie-chart,
+#roi-bar-chart,
+#iagpr-pie-chart,
+#iagpr-bar-chart {
+  display: block;
+  margin: auto;
+  width: 50%;
+  max-width: 500px;
+  height: auto;
 }

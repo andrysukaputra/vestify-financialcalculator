@@ -48,6 +48,7 @@ const srpiechart = new Chart(srpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -67,6 +68,7 @@ const srbarchart = new Chart(srbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X
