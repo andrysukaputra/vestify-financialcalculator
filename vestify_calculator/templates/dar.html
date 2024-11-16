@@ -19,110 +19,172 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div class="d-flex">
-      <!-- Tombol Hamburger -->
-      <button class="navbar-toggler" type="button" id="toggleNavbar">
+    <!-- New Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src=""
+            alt="Logo"
+            width="30"
+            height="24"
+            class="d-inline-block align-text-top"
+          />
+          Navbar
+        </a>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Navbar Vertikal -->
-      <nav
-        id="sidebar"
-        class="nav flex-column bg-light p-3"
-        style="width: 200px; display: none"
-      >
-        <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
-        <a class="nav-link active" href="{{ url_for('features') }}">Features</a>
-        <a class="nav-link" href="{{ url_for('sr') }}">Savings Rate (SR)</a>
-        <a class="nav-link" href="{{ url_for('efr') }}"
-          >Emergency Fund Ratio (EFR)</a
-        >
-        <a class="nav-link" href="{{ url_for('bhr') }}"
-          >Basic Housing Ratio (BHR)</a
-        >
-        <a class="nav-link" href="{{ url_for('bhodr') }}"
-          >Broad Housing and Other Debts Ratio (BHODR)</a
-        >
-        <a class="nav-link" href="{{ url_for('dar') }}"
-          >Debt to Assets Ratio (DAR)</a
-        >
-        <a class="nav-link" href="{{ url_for('nwar') }}"
-          >Net Worth to Assets Ratio (NWAR)</a
-        >
-        <a class="nav-link active" href="{{ url_for('roi') }}"
-          >Return on Investment (ROI)</a
-        >
-        <a class="nav-link" href="{{ url_for('iagpr') }}"
-          >Investment Assets to Gross Pay Ratio (IAGPR)</a
-        >
-      </nav>
-
-      <!-- Debt to Assets Ratio Content and Form -->
-      <div class="container-fluid">
-        <h1 class="mt-5">Debt to Assets Ratio (DAR)</h1>
-        <form method="POST">
-          <div class="mb-3">
-            <label for="total_debt" class="form-label">Total Debt:</label>
-            <input
-              type="text"
-              step="any"
-              class="form-control"
-              id="total_debt"
-              name="total_debt"
-              data-output-id="currency-output1"
-              placeholder="Enter Amount"
-              required
-            />
-            <p>Amount: <span id="currency-output1">0</span></p>
-          </div>
-          <div class="mb-3">
-            <label for="total_assets" class="form-label">Total Assets:</label>
-            <input
-              type="text"
-              step="any"
-              class="form-control"
-              id="total_assets"
-              name="total_assets"
-              data-output-id="currency-output2"
-              placeholder="Enter Amount"
-              required
-            />
-            <p>Amount: <span id="currency-output2">0</span></p>
-          </div>
-          <button id="calculate-btn" type="submit" class="btn btn-primary">
-            Calculate DAR
-          </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="{{ url_for('index') }}"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Calculator
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{{ url_for('sr') }}"
+                  >Savings Rate</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('efr') }}"
+                  >Emergency Fund Ratio</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('bhr') }}"
+                  >Basic Housing Ratio</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('bhodr') }}"
+                  >Broad Housing and Other Debts Ratio</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('dar') }}"
+                  >Debt to Assets Ratio</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('nwar') }}"
+                  >Net Worth to Assets Ratio</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('roi') }}"
+                  >Return on Investment</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('iagpr') }}"
+                  >Investment Assets to Gross Pay Ratio</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        {% if dar is not none %}
-        <div class="mt-4">
-          <h3 id="dar-distribution-title">Debt to Assets Ratio Distribution</h3>
-          <div id="dar-pie-chart-container">
-            <canvas id="dar-pie-chart"></canvas>
-          </div>
-          <p>Total Debt: {{ total_debt }}</p>
-          <p id="total_debt_dist" data-value="{{ total_debt_dist }}">
-            %Total Debt: {{ total_debt_dist }}
-          </p>
-          <p>Total Assets: {{ total_assets }}</p>
-          <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
-            %Total Assets: {{ total_assets_dist }}
-          </p>
-          <h3 id="dar-result-title">Debt to Assets Ratio Result</h3>
-          <h3 id="dar-result" data-value="{{ dar }}">
-            Your Debt to Assets Ratio: {{ dar }}%
-          </h3>
-          <div id="dar-bar-chart-container">
-            <canvas id="dar-bar-chart"></canvas>
-          </div>
-          <p id="dar-result-description">bla bla bla bla bla bla bla ...</p>
-        </div>
-        {% endif %}
       </div>
+    </nav>
+    <!-- End of New Navbar -->
+
+    <!-- Debt to Assets Ratio Content and Form -->
+    <div class="container-fluid">
+      <h1 class="mt-5">Debt to Assets Ratio (DAR)</h1>
+      <form method="POST">
+        <div class="mb-3">
+          <label for="total_debt" class="form-label">Total Debt:</label>
+          <input
+            type="text"
+            step="any"
+            class="form-control"
+            id="total_debt"
+            name="total_debt"
+            data-output-id="currency-output1"
+            placeholder="Enter Amount"
+            required
+          />
+          <p>Amount: <span id="currency-output1">0</span></p>
+        </div>
+        <div class="mb-3">
+          <label for="total_assets" class="form-label">Total Assets:</label>
+          <input
+            type="text"
+            step="any"
+            class="form-control"
+            id="total_assets"
+            name="total_assets"
+            data-output-id="currency-output2"
+            placeholder="Enter Amount"
+            required
+          />
+          <p>Amount: <span id="currency-output2">0</span></p>
+        </div>
+        <button id="calculate-btn" type="submit" class="btn btn-primary">
+          Calculate DAR
+        </button>
+      </form>
+      {% if dar is not none %}
+      <div class="mt-4">
+        <h3 id="dar-distribution-title">Debt to Assets Ratio Distribution</h3>
+        <div id="dar-pie-chart-container">
+          <canvas id="dar-pie-chart"></canvas>
+        </div>
+        <p>Total Debt: {{ total_debt }}</p>
+        <p id="total_debt_dist" data-value="{{ total_debt_dist }}">
+          %Total Debt: {{ total_debt_dist }}
+        </p>
+        <p>Total Assets: {{ total_assets }}</p>
+        <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
+          %Total Assets: {{ total_assets_dist }}
+        </p>
+        <h3 id="dar-result-title">Debt to Assets Ratio Result</h3>
+        <h3 id="dar-result" data-value="{{ dar }}">
+          Your Debt to Assets Ratio: {{ dar }}%
+        </h3>
+        <div id="dar-bar-chart-container">
+          <canvas id="dar-bar-chart"></canvas>
+        </div>
+        <p id="dar-result-description">bla bla bla bla bla bla bla ...</p>
+      </div>
+      {% endif %}
     </div>
 
     <script src="{{ url_for('static', filename='js/dar_chart_data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/currency_format.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   </body>
