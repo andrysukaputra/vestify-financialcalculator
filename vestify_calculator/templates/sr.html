@@ -172,32 +172,42 @@
       {% if sr is not none %}
       <div class="mt-4">
         <h3 id="sr-distribution-title">Savings Rate Distribution</h3>
-        <div id="sr-pie-chart-container">
-          <canvas id="sr-pie-chart"></canvas>
+        <div class="chart-container" id="sr-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="sr-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Annual Savings: {{ annual_savings }}</p>
+            <p id="annual_savings_dist" data-value="{{ annual_savings_dist }}">
+              %Annual Savings: {{ annual_savings_dist }}
+            </p>
+            <p>Employer Match: {{ employer_match }}</p>
+            <p id="employer_match_dist" data-value="{{ employer_match_dist }}">
+              %Employer Match: {{ employer_match_dist }}
+            </p>
+            <p>Annual Gross Income: {{ annual_gross_income }}</p>
+            <p
+              id="annual_gross_income_dist"
+              data-value="{{ annual_gross_income_dist }}"
+            >
+              %Annual Gross Income: {{ annual_gross_income_dist }}
+            </p>
+          </div>
         </div>
-        <p>Annual Savings: {{ annual_savings }}</p>
-        <p id="annual_savings_dist" data-value="{{ annual_savings_dist }}">
-          %Annual Savings: {{ annual_savings_dist }}
-        </p>
-        <p>Employer Match: {{ employer_match }}</p>
-        <p id="employer_match_dist" data-value="{{ employer_match_dist }}">
-          %Employer Match: {{ employer_match_dist }}
-        </p>
-        <p>Annual Gross Income: {{ annual_gross_income }}</p>
-        <p
-          id="annual_gross_income_dist"
-          data-value="{{ annual_gross_income_dist }}"
-        >
-          %Annual Gross Income: {{ annual_gross_income_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="sr-result-title">Savings Rate Result</h3>
         <h3 id="sr-result" data-value="{{ sr }}">
           Your Savings Rate: {{ sr }}%
         </h3>
-        <div id="sr-bar-chart-container">
-          <canvas id="sr-bar-chart"></canvas>
+        <div class="chart-container" id="sr-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="sr-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="sr-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="sr-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

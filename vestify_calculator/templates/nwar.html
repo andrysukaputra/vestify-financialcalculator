@@ -158,25 +158,35 @@
         <h3 id="nwar-distribution-title">
           Net Worth to Assets Ratio Distribution">
         </h3>
-        <div id="nwar-pie-chart-container">
-          <canvas id="nwar-pie-chart"></canvas>
+        <div class="chart-container" id="nwar-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="nwar-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Total Assets: {{ total_assets }}</p>
+            <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
+              %Total Assets: {{ total_assets_dist }}
+            </p>
+            <p>Liabilities: {{ liabilities }}</p>
+            <p id="liabilities_dist" data-value="{{ liabilities_dist }}">
+              %Total Liabilities: {{ liabilities_dist }}
+            </p>
+          </div>
         </div>
-        <p>Total Assets: {{ total_assets }}</p>
-        <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
-          %Total Assets: {{ total_assets_dist }}
-        </p>
-        <p>Liabilities: {{ liabilities }}</p>
-        <p id="liabilities_dist" data-value="{{ liabilities_dist }}">
-          %Total Liabilities: {{ liabilities_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="nwar-result-title">Net Worth to Assets Ratio Result</h3>
         <h3 id="nwar-result" data-value="{{ nwar }}">
           Your Net Worth to Assets Ratio: {{ nwar }}%
         </h3>
-        <div id="nwar-bar-chart-container">
-          <canvas id="nwar-bar-chart"></canvas>
+        <div class="chart-container" id="nwar-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="nwar-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="nwar-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="nwar-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

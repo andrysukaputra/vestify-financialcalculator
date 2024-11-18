@@ -31,6 +31,7 @@ const bhrpiechart = new Chart(bhrpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -54,6 +55,7 @@ const bhrbarchart = new Chart(bhrbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

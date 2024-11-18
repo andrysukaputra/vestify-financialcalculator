@@ -156,25 +156,35 @@
       {% if dar is not none %}
       <div class="mt-4">
         <h3 id="dar-distribution-title">Debt to Assets Ratio Distribution</h3>
-        <div id="dar-pie-chart-container">
-          <canvas id="dar-pie-chart"></canvas>
+        <div class="chart-container" id="dar-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="dar-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Total Debt: {{ total_debt }}</p>
+            <p id="total_debt_dist" data-value="{{ total_debt_dist }}">
+              %Total Debt: {{ total_debt_dist }}
+            </p>
+            <p>Total Assets: {{ total_assets }}</p>
+            <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
+              %Total Assets: {{ total_assets_dist }}
+            </p>
+          </div>
         </div>
-        <p>Total Debt: {{ total_debt }}</p>
-        <p id="total_debt_dist" data-value="{{ total_debt_dist }}">
-          %Total Debt: {{ total_debt_dist }}
-        </p>
-        <p>Total Assets: {{ total_assets }}</p>
-        <p id="total_assets_dist" data-value="{{ total_assets_dist }}">
-          %Total Assets: {{ total_assets_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="dar-result-title">Debt to Assets Ratio Result</h3>
         <h3 id="dar-result" data-value="{{ dar }}">
           Your Debt to Assets Ratio: {{ dar }}%
         </h3>
-        <div id="dar-bar-chart-container">
-          <canvas id="dar-bar-chart"></canvas>
+        <div class="chart-container" id="dar-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="dar-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="dar-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="dar-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

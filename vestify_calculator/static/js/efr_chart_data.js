@@ -29,6 +29,7 @@ const efrpiechart = new Chart(efrpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -48,6 +49,7 @@ const efrbarchart = new Chart(efrbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

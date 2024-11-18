@@ -35,7 +35,7 @@ input {
 
 h1 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -54,28 +54,41 @@ p {
 }
 
 .mt-4 {
-  margin-top: 1.5rem;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
 }
 
-#sr-pie-chart,
-#sr-bar-chart,
-#efr-pie-chart,
-#efr-bar-chart,
-#bhr-pie-chart,
-#bhr-bar-chart,
-#bhodr-pie-chart,
-#bhodr-bar-chart,
-#dar-pie-chart,
-#dar-bar-chart,
-#nwar-pie-chart,
-#nwar-bar-chart,
-#roi-pie-chart,
-#roi-bar-chart,
-#iagpr-pie-chart,
-#iagpr-bar-chart {
+.chart-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  margin-top: 10px !important;
+  padding: 20px !important;
+}
+
+.chart-app {
   display: block;
-  margin: auto;
-  width: 50%;
-  max-width: 500px;
+  max-width: 50%;
+  width: 500px;
   height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.chart-info {
+  max-width: 50%;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    flex-direction: column;
+    gap: 15px;
+  }
 }

@@ -33,6 +33,7 @@ const nwarpiechart = new Chart(nwarpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -56,6 +57,7 @@ const nwarbarchart = new Chart(nwarbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

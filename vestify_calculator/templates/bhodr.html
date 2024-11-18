@@ -178,40 +178,50 @@
         <h3 id="bhodr-distribution-title">
           Basic Housing and Other Debts Ratio Distribution"
         </h3>
-        <div id="bhodr-pie-chart-container">
-          <canvas id="bhodr-pie-chart"></canvas>
+        <div class="chart-container" id="bhodr-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="bhodr-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Housing Costs: {{ broad_housing_costs }}</p>
+            <p
+              id="broad_housing_costs_dist"
+              data-value="{{ broad_housing_costs_dist }}"
+            >
+              %Housing Costs: {{ broad_housing_costs_dist }}
+            </p>
+            <p>Other Debt Payments: {{ broad_other_debt_payments }}</p>
+            <p
+              id="broad_other_debt_payments_dist"
+              data-value="{{ broad_other_debt_payments_dist }}"
+            >
+              %Other Debt Payments: {{ broad_other_debt_payments_dist }}
+            </p>
+            <p>Gross Income: {{ broad_gross_income }}</p>
+            <p
+              id="broad_gross_income_dist"
+              data-value="{{ broad_gross_income_dist }}"
+            >
+              %Gross Income: {{ broad_gross_income_dist }}
+            </p>
+          </div>
         </div>
-        <p>Housing Costs: {{ broad_housing_costs }}</p>
-        <p
-          id="broad_housing_costs_dist"
-          data-value="{{ broad_housing_costs_dist }}"
-        >
-          %Housing Costs: {{ broad_housing_costs_dist }}
-        </p>
-        <p>Other Debt Payments: {{ broad_other_debt_payments }}</p>
-        <p
-          id="broad_other_debt_payments_dist"
-          data-value="{{ broad_other_debt_payments_dist }}"
-        >
-          %Other Debt Payments: {{ broad_other_debt_payments_dist }}
-        </p>
-        <p>Gross Income: {{ broad_gross_income }}</p>
-        <p
-          id="broad_gross_income_dist"
-          data-value="{{ broad_gross_income_dist }}"
-        >
-          %Gross Income: {{ broad_gross_income_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="bhodr-result-title">
           Basic Housing and Other Debts Ratio Result
         </h3>
         <h3 id="bhodr-result" data-value="{{ bhodr }}">
           Your Basic Housing and Other Debts Ratio: {{ bhodr }}%
         </h3>
-        <div id="bhodr-bar-chart-container">
-          <canvas id="bhodr-bar-chart"></canvas>
+        <div class="chart-container" id="bhodr-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="bhodr-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="bhodr-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="bhodr-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

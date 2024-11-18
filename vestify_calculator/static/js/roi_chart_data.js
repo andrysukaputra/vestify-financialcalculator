@@ -29,6 +29,7 @@ const roipiechart = new Chart(roipie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -48,6 +49,7 @@ const roibarchart = new Chart(roibar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

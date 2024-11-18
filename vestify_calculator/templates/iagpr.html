@@ -176,37 +176,47 @@
         <h3 id="iagpr-distribution-title">
           Investment Assets to Gross Pay Ratio
         </h3>
-        <div id="iagpr-pie-chart-container">
-          <canvas id="iagpr-pie-chart"></canvas>
+        <div class="chart-container" id="iagpr-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="iagpr-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Investment Assets: {{ investment_assets }}</p>
+            <p
+              id="investment_assets_dist"
+              data-value="{{ investment_assets_dist }}"
+            >
+              %Investment Assets: {{ investment_assets_dist }}
+            </p>
+            <p>Cash: {{ cash }}</p>
+            <p id="cash_dist" data-value="{{ cash_dist }}">
+              %Cash: {{ cash_dist }}
+            </p>
+            <p>Annual Gross Income: {{ annual_gross_income }}</p>
+            <p
+              id="annual_gross_income_dist"
+              data-value="{{ annual_gross_income_dist }}"
+            >
+              %Annual Gross Income: {{ annual_gross_income_dist }}
+            </p>
+          </div>
         </div>
-        <p>Investment Assets: {{ investment_assets }}</p>
-        <p
-          id="investment_assets_dist"
-          data-value="{{ investment_assets_dist }}"
-        >
-          %Investment Assets: {{ investment_assets_dist }}
-        </p>
-        <p>Cash: {{ cash }}</p>
-        <p id="cash_dist" data-value="{{ cash_dist }}">
-          %Cash: {{ cash_dist }}
-        </p>
-        <p>Annual Gross Income: {{ annual_gross_income }}</p>
-        <p
-          id="annual_gross_income_dist"
-          data-value="{{ annual_gross_income_dist }}"
-        >
-          %Annual Gross Income: {{ annual_gross_income_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="iagpr-result_title">
           Investment Assets to Gross Pay Ratio Result
         </h3>
         <h3 id="iagpr-result" data-value="{{ iagpr }}">
           Your Investment Assets to Gross Pay Ratio: {{ iagpr }}%
         </h3>
-        <div id="iagpr-bar-chart-container">
-          <canvas id="iagpr-bar-chart"></canvas>
+        <div class="chart-container" id="iagpr-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="iagpr-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="iagpr-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="iagpr-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

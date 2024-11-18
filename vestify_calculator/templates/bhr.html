@@ -156,26 +156,35 @@
       {% if bhr is not none %}
       <div class="mt-4">
         <h3 id="bhr-distribution-title">Basic Housing Ratio Distribution</h3>
-        <h3 id="bhr-result" data-value="{{ bhr }}"></h3>
-        <div id="bhr-pie-chart-container">
-          <canvas id="bhr-pie-chart"></canvas>
+        <div class="chart-container" id="bhr-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="bhr-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Housing Costs: {{ housing_costs }}</p>
+            <p id="housing_costs_dist" data-value="{{ housing_costs_dist }}">
+              %Housing Costs: {{ housing_costs_dist }}
+            </p>
+            <p>Gross Income: {{ gross_income }}</p>
+            <p id="gross_income_dist" data-value="{{ gross_income_dist }}">
+              %Gross Income: {{ gross_income_dist }}
+            </p>
+          </div>
         </div>
-        <p>Housing Costs: {{ housing_costs }}</p>
-        <p id="housing_costs_dist" data-value="{{ housing_costs_dist }}">
-          %Housing Costs: {{ housing_costs_dist }}
-        </p>
-        <p>Gross Income: {{ gross_income }}</p>
-        <p id="gross_income_dist" data-value="{{ gross_income_dist }}">
-          %Gross Income: {{ gross_income_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="bhr-result-title">BHR Result</h3>
         <h3 id="bhr-result" data-value="{{ bhr }}">
           Your Basic Housing Ratio: {{ bhr }}%
         </h3>
-        <div id="bhr-bar-chart-container">
-          <canvas id="bhr-bar-chart"></canvas>
+        <div class="chart-container" id="bhr-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="bhr-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="bhr-result-description">bla bla bla bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="bhr-result-description">bla bla bla bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>

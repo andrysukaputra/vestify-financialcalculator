@@ -46,6 +46,7 @@ const iagprpiechart = new Chart(iagprpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -69,6 +70,7 @@ const iagprbarchart = new Chart(iagprbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

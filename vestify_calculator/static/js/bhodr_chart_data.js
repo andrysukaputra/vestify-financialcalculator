@@ -46,6 +46,7 @@ const bhodrpiechart = new Chart(bhodrpie, {
   },
   option: {
     responsive: true,
+    maintainAspectRatio: true,
   },
 });
 
@@ -68,6 +69,7 @@ const bhodrbarchart = new Chart(bhodrbar, {
   options: {
     indexAxis: "y", // Menampilkan chart secara horizontal
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         beginAtZero: true, // Menyesuaikan sumbu X

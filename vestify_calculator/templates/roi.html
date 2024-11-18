@@ -162,38 +162,49 @@
         <h3 id="roi-investment-distribution-title">
           ROI Investment Distribution
         </h3>
-        <div id="roi-pie-chart-container">
-          <canvas id="roi-pie-chart"></canvas>
+        <div class="chart-container" id="roi-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="roi-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Ending Investments: {{ ending_investments }}</p>
+            <p
+              id="ending_investments_dist"
+              data-value="{{ ending_investments_dist }}"
+            >
+              %Final Value: {{ ending_investments_dist }}
+            </p>
+            <p>Beginning Investments: {{ beginning_investments }}</p>
+            <p
+              id="beginning_investments_dist"
+              data-value="{{ beginning_investments_dist }}"
+            >
+              %Initial Value: {{ beginning_investments_dist }}
+            </p>
+          </div>
         </div>
-        <p>Ending Investments: {{ ending_investments }}</p>
-        <p
-          id="ending_investments_dist"
-          data-value="{{ ending_investments_dist }}"
-        >
-          %Final Value: {{ ending_investments_dist }}
-        </p>
-        <p>Beginning Investments: {{ beginning_investments }}</p>
-        <p
-          id="beginning_investments_dist"
-          data-value="{{ beginning_investments_dist }}"
-        >
-          %Initial Value: {{ beginning_investments_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="roi-result-title">ROI Result</h3>
         <h3 id="roi-result" data-value="{{ roi }}">Your ROI: {{ roi }}%</h3>
-        <div id="roi-bar-chart-container">
-          <canvas id="roi-bar-chart"></canvas>
+        <div class="chart-container" id="roi-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="roi-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="roi-result-description">
+              Rasio laba atas investasi mengukur kinerja aset investasi Anda
+              selama satu tahun. Investasi awal adalah nilai aset dari tahun
+              sebelumnya dan investasi akhir adalah nilai aset pada akhir tahun
+              berjalan. Rasio laba atas investasi minimum berkisar 5%. Jika
+              lebih dari 10% termasuk berkategori kuat.Yang perlu diperhatikan
+              adalah tujuan, jangka waktu, dan toleransi risiko Anda akan
+              menentukan tujuan kinerja spesifik Anda. Anda dapat mencari opsi
+              dengan rekam jejak pengembalian yang baik, seperti saham, reksa
+              dana, obligasi, dll.
+            </p>
+          </div>
         </div>
-        <p id="roi-result-description">
-          Rasio laba atas investasi mengukur kinerja aset investasi Anda selama
-          satu tahun. Investasi awal adalah nilai aset dari tahun sebelumnya dan
-          investasi akhir adalah nilai aset pada akhir tahun berjalan. Rasio
-          laba atas investasi minimum berkisar 5%. Jika lebih dari 10% termasuk
-          berkategori kuat.Yang perlu diperhatikan adalah tujuan, jangka waktu,
-          dan toleransi risiko Anda akan menentukan tujuan kinerja spesifik
-          Anda. Anda dapat mencari opsi dengan rekam jejak pengembalian yang
-          baik, seperti saham, reksa dana, obligasi, dll.
-        </p>
       </div>
       {% endif %}
     </div>

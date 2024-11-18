@@ -160,31 +160,41 @@
       {% if efr is not none %}
       <div class="mt-4">
         <h3 id="efr-distribution-title">Emergency Fund Ratio Distribution</h3>
-        <div id="efr-pie-chart-container">
-          <canvas id="efr-pie-chart"></canvas>
+        <div class="chart-container" id="efr-pie-chart-container">
+          <div class="chart-app">
+            <canvas id="efr-pie-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p>Emergency Cash Fund: {{ emergency_cash_fund }}</p>
+            <p
+              id="emergency_cash_fund_dist"
+              data-value="{{ emergency_cash_fund_dist }}"
+            >
+              %Emergency Cash Fund: {{ emergency_cash_fund_dist }}
+            </p>
+            <p>Monthly Primary Expenses: {{ monthly_primary_expenses }}</p>
+            <p
+              id="monthly_primary_expenses_dist"
+              data-value="{{ monthly_primary_expenses_dist }}"
+            >
+              %Monthly Primary Expenses: {{ monthly_primary_expenses_dist }}
+            </p>
+          </div>
         </div>
-        <p>Emergency Cash Fund: {{ emergency_cash_fund }}</p>
-        <p
-          id="emergency_cash_fund_dist"
-          data-value="{{ emergency_cash_fund_dist }}"
-        >
-          %Emergency Cash Fund: {{ emergency_cash_fund_dist }}
-        </p>
-        <p>Monthly Primary Expenses: {{ monthly_primary_expenses }}</p>
-        <p
-          id="monthly_primary_expenses_dist"
-          data-value="{{ monthly_primary_expenses_dist }}"
-        >
-          %Monthly Primary Expenses: {{ monthly_primary_expenses_dist }}
-        </p>
+      </div>
+      <div class="mt-4">
         <h3 id="efr-result-title">Emergency Fund Ratio Result</h3>
         <h3 id="efr-result" data-value="{{ efr }}">
           Your Emergency Fund Ratio: {{ efr }} month
         </h3>
-        <div id="efr-bar-chart-container">
-          <canvas id="efr-bar-chart"></canvas>
+        <div class="chart-container" id="efr-bar-chart-container">
+          <div class="chart-app">
+            <canvas id="efr-bar-chart"></canvas>
+          </div>
+          <div class="chart-info">
+            <p id="efr-result-description">bla bla bla bla ...</p>
+          </div>
         </div>
-        <p id="efr-result-description">bla bla bla bla ...</p>
       </div>
       {% endif %}
     </div>
